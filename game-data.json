@@ -1,0 +1,561 @@
+{
+  "meta": {
+    "title": "Welwitschia Lunar",
+    "slogan": "Da Baía de Luanda ao Polo Sul da Lua",
+    "tagline": "Treinador de Missão Lunar",
+    "audience": "Astronauta Júnior",
+    "team": "Equipa angolana, NASA Space Apps Challenge 2026",
+    "disclaimer": "Projeto educativo criado pela equipa. Não é um produto oficial da NASA. Os valores do jogo são simplificações para aprender a brincar."
+  },
+  "rules": {
+    "totalPoints": 180,
+    "minPoints": 20,
+    "maxPoints": 80,
+    "step": 5,
+    "defaultPoints": 45,
+    "starsAt": {
+      "three": 55,
+      "two": 40
+    }
+  },
+  "story": [
+    "Estás no comando da Welwitschia Lunar, uma pequena base no Polo Sul da Lua.",
+    "Quatro astronautas contam contigo. Escolhe o local, prepara a base e decide o que fazer quando surgirem problemas.",
+    "Tudo o que acontece é inspirado em dados e experiências reais da NASA."
+  ],
+  "howto": [
+    {
+      "icon": "📍",
+      "title": "Escolhe o local",
+      "text": "3 sítios no Polo Sul. Todos têm prós e contras."
+    },
+    {
+      "icon": "🎒",
+      "title": "Prepara a base",
+      "text": "Reparte os pontos entre vida, energia, proteção e alimentos."
+    },
+    {
+      "icon": "🚨",
+      "title": "Resolve problemas",
+      "text": "5 dias, 5 problemas, 2 escolhas cada."
+    },
+    {
+      "icon": "🏅",
+      "title": "Vê o resultado",
+      "text": "Ganha até 3 estrelas."
+    },
+    {
+      "icon": "🛰️",
+      "title": "Aprende",
+      "text": "O NASA Debrief mostra a ciência real por trás de cada decisão."
+    }
+  ],
+  "resources": [
+    {
+      "id": "vida",
+      "label": "Vida",
+      "icon": "❤️",
+      "color": "#ff5d73",
+      "tip": "Ar para respirar e água para beber.",
+      "astro": {
+        "name": "Luzia",
+        "role": "Médica"
+      }
+    },
+    {
+      "id": "energia",
+      "label": "Energia",
+      "icon": "⚡",
+      "color": "#ffcb2e",
+      "tip": "Painéis solares e baterias. Quase tudo gasta energia!",
+      "astro": {
+        "name": "Ngola",
+        "role": "Engenheiro"
+      }
+    },
+    {
+      "id": "protecao",
+      "label": "Proteção",
+      "icon": "🛡️",
+      "color": "#4cd7ff",
+      "tip": "Escudo contra radiação e poeira.",
+      "astro": {
+        "name": "Kiala",
+        "role": "Física"
+      }
+    },
+    {
+      "id": "alimentos",
+      "label": "Alimentos",
+      "icon": "🥬",
+      "color": "#46e6a0",
+      "tip": "Comida guardada e a estufa da base.",
+      "astro": {
+        "name": "Zeca",
+        "role": "Agrónomo"
+      }
+    }
+  ],
+  "traits": [
+    {
+      "id": "luz",
+      "label": "Luz",
+      "icon": "💡",
+      "source": "LROC"
+    },
+    {
+      "id": "gelo",
+      "label": "Gelo",
+      "icon": "🧊",
+      "source": "LEND"
+    },
+    {
+      "id": "terreno",
+      "label": "Terreno",
+      "icon": "⛰️",
+      "source": "LOLA"
+    },
+    {
+      "id": "radiacao",
+      "label": "Radiação",
+      "icon": "☢️",
+      "source": "CRaTER"
+    }
+  ],
+  "sites": [
+    {
+      "id": "shackleton",
+      "name": "Borda de Shackleton",
+      "emoji": "🌞",
+      "tagline": "Quase sempre ao sol, com gelo nas crateras escuras ali perto.",
+      "traits": {
+        "luz": {
+          "label": "Alta",
+          "score": 3
+        },
+        "gelo": {
+          "label": "Média",
+          "score": 2
+        },
+        "terreno": {
+          "label": "Moderado",
+          "score": 2
+        },
+        "radiacao": {
+          "label": "Média",
+          "score": 2
+        }
+      },
+      "mods": {
+        "energia": 10,
+        "vida": -5
+      },
+      "pro": "Muita energia solar.",
+      "con": "A água está mais longe."
+    },
+    {
+      "id": "faustini",
+      "name": "Cratera Faustini",
+      "emoji": "🧊",
+      "tagline": "Escura e fria, mas com os melhores sinais de gelo de água.",
+      "traits": {
+        "luz": {
+          "label": "Média",
+          "score": 2
+        },
+        "gelo": {
+          "label": "Alto",
+          "score": 3
+        },
+        "terreno": {
+          "label": "Acidentado",
+          "score": 1
+        },
+        "radiacao": {
+          "label": "Média",
+          "score": 2
+        }
+      },
+      "mods": {
+        "vida": 10,
+        "energia": -5,
+        "alimentos": -5
+      },
+      "pro": "Água por perto.",
+      "con": "Terreno difícil e menos luz."
+    },
+    {
+      "id": "malapert",
+      "name": "Planalto de Malapert",
+      "emoji": "🌍",
+      "tagline": "Terreno calmo e a Terra sempre à vista para falar com a equipa.",
+      "traits": {
+        "luz": {
+          "label": "Alta",
+          "score": 3
+        },
+        "gelo": {
+          "label": "Baixo",
+          "score": 1
+        },
+        "terreno": {
+          "label": "Suave",
+          "score": 3
+        },
+        "radiacao": {
+          "label": "Média",
+          "score": 2
+        }
+      },
+      "mods": {
+        "energia": 5,
+        "protecao": 5,
+        "alimentos": 5,
+        "vida": -10
+      },
+      "pro": "Fácil de construir e cultivar.",
+      "con": "Pouca água disponível."
+    }
+  ],
+  "events": [
+    {
+      "id": "tempestade",
+      "day": 1,
+      "title": "Tempestade solar!",
+      "scene": {
+        "emoji": "☀️",
+        "anim": "pulse",
+        "bg": "linear-gradient(135deg,#ff9a3c,#ff3b47)"
+      },
+      "story": "O Sol lançou partículas muito rápidas na direção da Lua. O alarme de radiação está a tocar na Welwitschia Lunar.",
+      "question": "O que fazes?",
+      "choices": [
+        {
+          "label": "Abrigar todos no módulo protegido",
+          "hint": "Seguro, mas gasta energia",
+          "effects": {
+            "energia": -10,
+            "protecao": -5
+          },
+          "result": "Todos ficaram em segurança. O módulo gastou alguma energia, mas ninguém apanhou radiação a mais.",
+          "sceneUpdate": {
+            "component": "shield",
+            "state": "active",
+            "anim": "pulse"
+          }
+        },
+        {
+          "label": "Terminar o trabalho lá fora",
+          "hint": "Rápido, mas arriscado",
+          "effects": {
+            "protecao": -30,
+            "vida": -10,
+            "alimentos": 10
+          },
+          "result": "O trabalho acabou mais cedo, mas a tripulação ficou exposta e o escudo da base sofreu.",
+          "sceneUpdate": {
+            "component": "shield",
+            "state": "damaged",
+            "anim": "shake"
+          }
+        }
+      ],
+      "fact": "Na Lua não há atmosfera a proteger-nos da radiação!",
+      "learn": "A Lua não tem atmosfera nem um campo magnético global como a Terra, por isso a radiação do espaço chega à superfície. O instrumento CRaTER, na sonda LRO, mede a radiação à volta da Lua para ajudar a planear a segurança de futuras tripulações.",
+      "sources": [
+        "CRaTER"
+      ]
+    },
+    {
+      "id": "noite",
+      "day": 2,
+      "title": "A noite chegou",
+      "scene": {
+        "emoji": "🌑",
+        "anim": "float",
+        "bg": "linear-gradient(135deg,#3a2f8f,#0b1030)"
+      },
+      "story": "A base entrou numa zona de sombra. Os painéis solares quase não recebem luz e a bateria está a descer.",
+      "question": "Como poupas energia?",
+      "choices": [
+        {
+          "label": "Ligar o modo poupança",
+          "hint": "Bateria dura mais, estufa sofre",
+          "effects": {
+            "energia": 10,
+            "alimentos": -15
+          },
+          "result": "A bateria aguentou, mas a estufa ficou mais fria e as plantas cresceram menos."
+        },
+        {
+          "label": "Manter a estufa ligada",
+          "hint": "Plantas felizes, bateria vazia",
+          "effects": {
+            "energia": -25,
+            "alimentos": 10
+          },
+          "result": "As plantas continuaram a crescer, mas a bateria quase chegou ao fim."
+        }
+      ],
+      "fact": "No Polo Sul da Lua o Sol fica sempre muito baixo, por isso há sombras enormes.",
+      "learn": "No Polo Sul lunar o Sol aparece muito perto do horizonte. Isso cria sombras longas e deixa alguns locais com muito mais luz do que outros. As câmaras LROC, na LRO, ajudam a mapear onde há mais ou menos iluminação na superfície.",
+      "sources": [
+        "LROC"
+      ]
+    },
+    {
+      "id": "gelo",
+      "day": 3,
+      "title": "Sinal de gelo!",
+      "scene": {
+        "emoji": "🧊",
+        "anim": "shake",
+        "bg": "linear-gradient(135deg,#4cd7ff,#3b6bff)"
+      },
+      "story": "Os sensores detetam hidrogénio dentro de uma cratera escura. Pode haver gelo de água lá dentro, mas o caminho é íngreme e difícil.",
+      "question": "Como arranjas mais água?",
+      "choices": [
+        {
+          "label": "Enviar o rover à cratera",
+          "hint": "Pode render muita água",
+          "effects": {
+            "vida": 25,
+            "energia": -15,
+            "protecao": -10
+          },
+          "result": "O rover trouxe gelo suficiente para encher os depósitos. A viagem gastou energia e o pó danificou o escudo."
+        },
+        {
+          "label": "Reciclar a água da base",
+          "hint": "Seguro e barato",
+          "effects": {
+            "vida": 10,
+            "energia": -5
+          },
+          "result": "A água foi limpa e reutilizada. Não é muita, mas ninguém correu riscos."
+        }
+      ],
+      "fact": "Há instrumentos na Lua a procurar gelo de água a partir da órbita!",
+      "learn": "O instrumento LEND, na LRO, deteta neutrões que podem indicar onde há mais hidrogénio, um possível sinal de gelo. O LOLA mede o relevo com laser para escolher caminhos seguros. E o sistema ECLSS, na Estação Espacial Internacional, já recicla água da tripulação para que nada se desperdice.",
+      "sources": [
+        "LEND",
+        "LOLA",
+        "ECLSS"
+      ]
+    },
+    {
+      "id": "poeira",
+      "day": 4,
+      "title": "Poeira lunar!",
+      "scene": {
+        "emoji": "🌫️",
+        "anim": "float",
+        "bg": "linear-gradient(135deg,#8d92b8,#4b5080)"
+      },
+      "story": "A poeira da Lua é fina e áspera. Entrou no módulo e está a entupir os filtros do ar.",
+      "question": "E agora?",
+      "choices": [
+        {
+          "label": "Limpar os filtros já",
+          "hint": "Ar limpo, gasta energia",
+          "effects": {
+            "vida": 5,
+            "energia": -8
+          },
+          "result": "Os filtros ficaram limpos e todos respiram melhor. A limpeza gastou um pouco de energia."
+        },
+        {
+          "label": "Deixar para amanhã",
+          "hint": "Poupa energia, mas arrisca",
+          "effects": {
+            "vida": -20,
+            "energia": 5,
+            "protecao": -5
+          },
+          "result": "A poeira acumulou-se, o ar piorou e a tripulação começou a tossir."
+        }
+      ],
+      "fact": "Os astronautas das missões Apollo contaram que a poeira lunar se colava a tudo.",
+      "learn": "Os astronautas das missões Apollo relataram que a poeira lunar se agarrava aos fatos e entrava nas cabines. Os sistemas de suporte de vida da NASA, como o ECLSS, cuidam do ar e da água da tripulação, por isso filtros limpos são essenciais.",
+      "sources": [
+        "ECLSS"
+      ]
+    },
+    {
+      "id": "estufa",
+      "day": 5,
+      "title": "A estufa precisa de ti",
+      "scene": {
+        "emoji": "🌱",
+        "anim": "pulse",
+        "bg": "linear-gradient(135deg,#46e6a0,#1b8f6a)"
+      },
+      "story": "As alfaces da estufa estão pálidas. Precisam de mais luz para crescer, mas as luzes LED gastam energia.",
+      "question": "O que decides?",
+      "choices": [
+        {
+          "label": "Ligar luzes LED extra",
+          "hint": "Muita comida, gasta energia",
+          "effects": {
+            "energia": -15,
+            "alimentos": 25
+          },
+          "result": "As alfaces ficaram verdes e fortes. Há comida fresca para toda a equipa, mas a bateria ficou mais fraca."
+        },
+        {
+          "label": "Plantar menos e esperar",
+          "hint": "Pouca comida, sem gastos",
+          "effects": {
+            "alimentos": 5
+          },
+          "result": "Poupaste energia, mas a colheita vai ser pequena."
+        }
+      ],
+      "fact": "Já houve astronautas a comer alface cultivada no espaço!",
+      "learn": "Na Estação Espacial Internacional, a NASA usa o Veggie e o Advanced Plant Habitat para estudar como as plantas crescem com pouca gravidade. Os astronautas já comeram alface cultivada no espaço. Isso ajuda a imaginar bases onde a comida também é produzida lá.",
+      "sources": [
+        "Veggie"
+      ]
+    },
+    {
+      "id": "micrometeorito",
+      "day": 6,
+      "title": "Alerta de Micrometeorito!",
+      "scene": {
+        "emoji": "☄️",
+        "anim": "shake",
+        "bg": "linear-gradient(135deg,#333,#000)"
+      },
+      "story": "O radar detetou uma chuva de micrometeoritos a caminho da base. Pequenos, mas extremamente rápidos.",
+      "question": "Qual a tua prioridade?",
+      "choices": [
+        {
+          "label": "Reforçar a blindagem externa",
+          "hint": "Protege a estrutura, gasta energia",
+          "effects": {
+            "protecao": 15,
+            "energia": -10
+          },
+          "result": "A blindagem aguentou o impacto. Ouviram-se alguns estalidos, mas a estrutura está intacta."
+        },
+        {
+          "label": "Mover o rover para o hangar",
+          "hint": "Salva o equipamento, arrisca a base",
+          "effects": {
+            "protecao": -10,
+            "energia": -5
+          },
+          "result": "O rover está a salvo, mas a base sofreu alguns danos superficiais na habitação."
+        }
+      ],
+      "fact": "A poeira e micrometeoritos são constantes na Lua!",
+      "learn": "Sem atmosfera, até partículas minúsculas atingem a superfície a velocidades hipersónicas. A NASA estuda materiais compostos e escudos térmicos para proteger as bases.",
+      "sources": [
+        "CRaTER"
+      ]
+    },
+    {
+      "id": "comunicacao",
+      "day": 7,
+      "title": "Falha de Comunicação",
+      "scene": {
+        "emoji": "📡",
+        "anim": "float",
+        "bg": "linear-gradient(135deg,#1a2358,#060a1c)"
+      },
+      "story": "Uma interferência solar cortou a ligação com a Terra. A equipa sente-se isolada e ansiosa.",
+      "question": "Como geres a tripulação?",
+      "choices": [
+        {
+          "label": "Organizar atividade de grupo",
+          "hint": "Melhora o moral, gasta alimentos",
+          "effects": {
+            "vida": 10,
+            "alimentos": -10
+          },
+          "result": "Um jantar especial ajudou a relaxar a equipa. O moral subiu, embora a despensa tenha diminuído."
+        },
+        {
+          "label": "Tentar reparar a antena sozinho",
+          "hint": "Recupera o sinal, gasta energia",
+          "effects": {
+            "energia": -15,
+            "protecao": -5
+          },
+          "result": "O sinal voltou! Mas o esforço físico e a exposição ao frio desgastaram o técnico."
+        }
+      ],
+      "fact": "A comunicação com a Lua tem um atraso (delay) constante!",
+      "learn": "A distância Terra-Lua faz com que as mensagens demorem cerca de 1.3 segundos para chegar. Em situações de emergência, a autonomia da tripulação é vital.",
+      "sources": [
+        "LOLA"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "LROC",
+      "name": "LROC / LRO",
+      "icon": "📷",
+      "url": "https://www.lroc.im-ldi.com/",
+      "use": "Mostra a iluminação e a superfície da Lua. No jogo vira o indicador de luz."
+    },
+    {
+      "id": "LOLA",
+      "name": "LOLA / LRO",
+      "icon": "📐",
+      "url": "https://imbrium.mit.edu/",
+      "use": "Mede o relevo com laser. No jogo vira o indicador de terreno."
+    },
+    {
+      "id": "LEND",
+      "name": "LEND / LRO",
+      "icon": "🧊",
+      "url": "https://science.nasa.gov/mission/lro/",
+      "use": "Mostra diferenças de hidrogénio e possíveis voláteis. No jogo vira o indicador de gelo."
+    },
+    {
+      "id": "CRaTER",
+      "name": "CRaTER / LRO",
+      "icon": "☢️",
+      "url": "https://crater-web.sr.unh.edu/",
+      "use": "Mede o ambiente de radiação. No jogo vira o indicador de radiação."
+    },
+    {
+      "id": "ECLSS",
+      "name": "ECLSS, NASA",
+      "icon": "💧",
+      "url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "use": "Suporte de vida: referências para água e oxigénio."
+    },
+    {
+      "id": "Veggie",
+      "name": "Veggie e Advanced Plant Habitat",
+      "icon": "🌱",
+      "url": "https://www.nasa.gov/image-article/nasa-harvests-lettuce-for-space-station-study/",
+      "use": "Mostra como a NASA estuda plantas e cultivo no espaço."
+    }
+  ],
+  "ranks": [
+    {
+      "stars": 0,
+      "title": "Missão interrompida",
+      "message": "Um recurso chegou a zero e a missão teve de parar. Os astronautas estão bem, e tu aprendeste muito. Tenta outra vez!"
+    },
+    {
+      "stars": 1,
+      "title": "Cadete Lunar",
+      "message": "A tripulação sobreviveu. Com outro local ou outra divisão de pontos, podes ir mais longe."
+    },
+    {
+      "stars": 2,
+      "title": "Astronauta Júnior",
+      "message": "Boa missão! Mantiveste a base estável e a equipa segura."
+    },
+    {
+      "stars": 3,
+      "title": "Comandante Estelar",
+      "message": "Missão perfeita! A Welwitschia Lunar está pronta para o futuro."
+    }
+  ]
+}

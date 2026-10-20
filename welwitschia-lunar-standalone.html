@@ -1,0 +1,1300 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1436">
+  <title>Welwitschia Lunar | Da Baía de Luanda ao Polo Sul da Lua | Treinador de Missão Lunar</title>
+
+  <!-- Fontes opcionais. Sem internet, o jogo usa as fontes do sistema. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <style>
+/* ==========================================================
+   WELWITSCHIA LUNAR - DESIGN TOKENS
+   Edita aqui para mudar o visual todo. Funciona em qualquer
+   framework: são apenas variáveis CSS.
+   ========================================================== */
+:root {
+  /* Espaço (cores de fundo) */
+  --bk-space-0: #060a1c;
+  --bk-space-1: #0d1436;
+  --bk-space-2: #1a2358;
+
+  /* Superfícies translúcidas */
+  --bk-surface: rgba(22, 30, 82, 0.66);
+  --bk-surface-strong: rgba(255, 255, 255, 0.13);
+  --bk-line: rgba(255, 255, 255, 0.16);
+  --bk-glass-border: rgba(255, 255, 255, 0.2);
+
+  /* Texto */
+  --bk-text: #f5f7ff;
+  --bk-text-dim: #b9c2ea;
+
+  /* Identidade Welwitschia Lunar: vermelho e amarelo da bandeira de Angola */
+  --bk-red: #ff3b47;
+  --bk-yellow: #ffcb2e;
+  --bk-yellow-deep: #b87d00;
+
+  /* Apoio */
+  --bk-cyan: #4cd7ff;
+  --bk-green: #46e6a0;
+  --bk-violet: #8b7bff;
+  --bk-pink: #ff5d73;
+
+  /* Cores dos 4 recursos */
+  --bk-res-vida: #ff5d73;
+  --bk-res-energia: #ffcb2e;
+  --bk-res-protecao: #4cd7ff;
+  --bk-res-alimentos: #46e6a0;
+
+  /* Tipografia */
+  --bk-font-display: "Fredoka", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --bk-font-body: "Nunito", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --bk-font-hud: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --bk-text-xs: 0.78rem;
+  --bk-text-s: 0.92rem;
+  --bk-text-m: 1.05rem;
+  --bk-text-l: 1.35rem;
+  --bk-text-xl: clamp(1.8rem, 6vw, 2.6rem);
+  --bk-text-hero: clamp(3rem, 12vw, 4.6rem);
+
+  /* Formas */
+  --bk-radius-s: 12px;
+  --bk-radius-m: 20px;
+  --bk-radius-l: 28px;
+  --bk-radius-pill: 999px;
+
+  /* Sombras e movimento */
+  --bk-shadow-card: 0 14px 34px rgba(0, 0, 0, 0.38);
+  --bk-ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --bk-ease-soft: cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* Largura máxima do conteúdo */
+  --bk-max-width: 880px;
+}
+
+</style>
+  <style>
+/* ==========================================================
+   WELWITSCHIA LUNAR - ESTILOS
+   Organização: base > fundo animado > layout > componentes >
+   ecrãs > animações > acessibilidade
+   ========================================================== */
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bk-space-0); }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--bk-font-body);
+  font-size: var(--bk-text-m);
+  line-height: 1.5;
+  color: var(--bk-text);
+  background:
+    radial-gradient(1200px 700px at 80% -10%, var(--bk-space-2), transparent 60%),
+    linear-gradient(180deg, var(--bk-space-1), var(--bk-space-0));
+  background-attachment: fixed;
+  overflow-x: hidden;
+  transition: background 0.4s ease;
+}
+
+/* Camadas Imersivas: CRT e Luz Ambiente */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 4px, 3px 100%;
+  opacity: 0.4;
+  z-index: 999;
+  animation: crt-flicker 0.15s infinite;
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.38; }
+  50% { opacity: 0.42; }
+  100% { opacity: 0.39; }
+}
+
+.ambient-light {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(circle at var(--light-x, 50%) var(--light-y, 50%), rgba(76, 215, 255, 0.08), transparent 60%);
+  mix-blend-mode: screen;
+  transition: background 1s ease;
+}
+
+body.critical-alert .ambient-light {
+  background: radial-gradient(circle at var(--light-x, 50%) var(--light-y, 50%), rgba(255, 59, 71, 0.15), transparent 60%);
+}
+
+
+.critical-alert {
+  background: radial-gradient(circle at center, rgba(255,59,71,0.3) 0%, transparent 70%) !important;
+  animation: screen-flash 0.6s ease-out infinite alternate;
+}
+@keyframes screen-flash {
+  from { opacity: 1; }
+  to { opacity: 0.8; }
+}
+h1, h2, h3 { font-family: var(--bk-font-display); line-height: 1.15; margin: 0 0 0.5rem; }
+
+p { margin: 0 0 0.75rem; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--bk-cyan); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Fundo animado ---------- */
+.nebula-container {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+}
+.nebula {
+  position: absolute; width: 150vmax; height: 150vmax;
+  top: -25vmax; left: -25vmax; border-radius: 50%;
+  filter: blur(80px); opacity: 0.3; mix-blend-mode: screen;
+  animation: nebula-drift 30s ease-in-out infinite alternate;
+}
+.nebula-1 {
+  background: radial-gradient(circle, var(--bk-space-2) 0%, transparent 50%);
+  transform: translate(10%, 10%);
+}
+.nebula-2 {
+  background: radial-gradient(circle, rgba(76, 215, 255, 0.15) 0%, transparent 60%);
+  transform: translate(-20%, 30%);
+  animation-duration: 45s;
+}
+.nebula-3 {
+  background: radial-gradient(circle, rgba(255, 59, 71, 0.1) 0%, transparent 50%);
+  transform: translate(30%, -10%);
+  animation-duration: 60s;
+}
+
+@keyframes nebula-drift {
+  from { transform: translate(-10%, -10%) rotate(0deg) scale(1); }
+  to { transform: translate(10%, 10%) rotate(15deg) scale(1.1); }
+}
+
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+.earth {
+  position: fixed; bottom: 118px; right: 6%; width: 52px; height: 52px; border-radius: 50%; z-index: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55) 0 8%, transparent 9%),
+    radial-gradient(circle at 62% 55%, #46e6a0 0 22%, transparent 23%),
+    radial-gradient(circle at 28% 68%, #46e6a0 0 14%, transparent 15%),
+    radial-gradient(circle at 40% 35%, #5aa9ff, #1f4fd1 70%);
+  box-shadow: 0 0 30px rgba(90,169,255,0.55), inset -8px -8px 14px rgba(0,0,20,0.45);
+  animation: bob 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.shooting {
+  position: fixed; top: 12%; left: -10%; width: 120px; height: 2px; z-index: 0; opacity: 0;
+  background: linear-gradient(90deg, transparent, #fff);
+  transform: rotate(18deg);
+  animation: shoot 11s linear 3s infinite;
+  pointer-events: none;
+}
+
+.moon { position: fixed; left: 0; right: 0; bottom: 0; height: 150px; z-index: 0; pointer-events: none; overflow: hidden; }
+.moon__surface {
+  position: absolute; left: -10%; bottom: -70px; width: 120%; height: 170px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(ellipse at 50% 0%, #a9aed0 0%, #6a709f 45%, #343968 100%);
+  box-shadow: inset 0 14px 34px rgba(255,255,255,0.28), 0 -10px 40px rgba(139,123,255,0.25);
+}
+.moon__surface i { position: absolute; border-radius: 50%; background: rgba(40,45,90,0.28); box-shadow: inset 3px 3px 6px rgba(0,0,0,0.25); }
+.moon__surface i:nth-child(1) { left: 14%; top: 36px; width: 70px; height: 20px; }
+.moon__surface i:nth-child(2) { left: 46%; top: 28px; width: 110px; height: 26px; }
+.moon__surface i:nth-child(3) { left: 74%; top: 44px; width: 60px; height: 16px; }
+.moon__surface i:nth-child(4) { left: 30%; top: 70px; width: 40px; height: 12px; }
+.moon__rover { position: absolute; bottom: 74px; left: 0; width: 76px; animation: drive 42s linear infinite; }
+.moon__rover .wheel { transform-box: fill-box; transform-origin: center; animation: spin 2.4s linear infinite; }
+
+/* ---------- Layout ---------- */
+.app { position: relative; z-index: 1; max-width: var(--bk-max-width); margin: 0 auto; padding: 0.9rem 1rem 11rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.brand { display: flex; align-items: center; gap: 0.6rem; font-family: var(--bk-font-display); font-weight: 700; font-size: 1.15rem; }
+.brand svg { width: 34px; height: 34px; }
+.brand small { display: block; font-family: var(--bk-font-body); font-weight: 600; font-size: var(--bk-text-xs); color: var(--bk-text-dim); }
+.icon-btn {
+  border: 1px solid var(--bk-line); background: var(--bk-surface); border-radius: var(--bk-radius-pill);
+  padding: 0.45rem 0.85rem; cursor: pointer; font-weight: 700; font-size: var(--bk-text-s);
+  transition: background 0.2s;
+}
+.icon-btn:hover { background: var(--bk-surface-strong); }
+
+/* Simulação Visual */
+.sim-svg {
+  width: 120px; height: 120px;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.2));
+  transition: transform 0.5s var(--bk-ease-pop);
+}
+.sim-part { transition: all 0.4s var(--bk-ease-soft); transform-origin: center; }
+.state-active { animation: shield-deploy 0.5s var(--bk-ease-pop) forwards; }
+.state-glowing { animation: energy-pulse 2s ease-in-out infinite; }
+.state-damaged {
+  fill: var(--bk-red) !important;
+  stroke: var(--bk-red) !important;
+  animation: wobble 0.3s infinite;
+}
+
+
+/* Etapas: é uma sequência real, por isso usa números */
+.steps { display: flex; gap: 0.4rem; list-style: none; margin: 0.9rem 0 1rem; padding: 0; counter-reset: step; }
+.steps li {
+  flex: 1; position: relative; padding-top: 0.8rem; text-align: center; counter-increment: step;
+  font-size: var(--bk-text-xs); font-weight: 700; color: var(--bk-text-dim);
+}
+.steps li::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 3px;
+  background: var(--bk-surface-strong); transition: background 0.4s;
+}
+.steps li.is-done::before { background: var(--bk-green); }
+.steps li.is-current::before { background: var(--bk-yellow); box-shadow: 0 0 12px rgba(255,203,46,0.7); }
+.steps li.is-current { color: var(--bk-text); }
+.steps li span::before { content: counter(step) ". "; }
+@media (max-width: 520px) { .steps li span { font-size: 0.68rem; } }
+
+.screen {
+  animation: screen-in 0.55s var(--bk-ease-pop) both;
+  transition: opacity 0.4s ease, transform 0.4s var(--bk-ease-pop);
+}
+.screen.exit {
+  opacity: 0;
+  transform: translateX(-20px) scale(0.98);
+  pointer-events: none;
+}
+.screen.enter {
+  animation: screen-in 0.55s var(--bk-ease-pop) both;
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateX(20px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+
+.footer { margin-top: 2rem; font-size: var(--bk-text-xs); color: var(--bk-text-dim); text-align: center; }
+
+/* ---------- Componentes ---------- */
+.card {
+  background: rgba(22, 30, 82, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--bk-radius-l);
+  padding: 1.25rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px) saturate(200%);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  pointer-events: none;
+}
+
+.lead { font-size: var(--bk-text-l); font-family: var(--bk-font-display); font-weight: 500; }
+.muted { color: var(--bk-text-dim); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 0; border-radius: var(--bk-radius-pill); padding: 0.85rem 1.5rem; cursor: pointer;
+  font-family: var(--bk-font-display); font-weight: 700; font-size: 1.1rem;
+  transition: transform 0.15s var(--bk-ease-pop), box-shadow 0.15s, filter 0.2s;
+}
+.btn--primary {
+  background: linear-gradient(180deg, #ffe066, var(--bk-yellow)); color: #2a1d00;
+  box-shadow: 0 5px 0 var(--bk-yellow-deep), 0 14px 26px rgba(255,184,28,0.32);
+}
+.btn--primary:hover:not(:disabled) { transform: translateY(-2px); }
+.btn--primary:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--bk-yellow-deep);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 2px 0 var(--bk-yellow-deep);
+}
+.btn--ghost { background: var(--bk-surface-strong); border: 1px solid var(--bk-line); }
+.btn--ghost:hover { background: rgba(255,255,255,0.2); }
+.btn--xl { font-size: 1.3rem; padding: 1rem 2rem; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.6); }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.7rem; border-radius: var(--bk-radius-pill);
+  font-size: var(--bk-text-xs); font-weight: 800; background: var(--bk-surface-strong);
+}
+.chip--day { background: var(--bk-red); color: #fff; }
+.src {
+  display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.65rem; border-radius: var(--bk-radius-pill);
+  font-size: var(--bk-text-xs); font-weight: 800; background: rgba(139,123,255,0.28); color: #dcd6ff;
+  text-decoration: none; transition: background 0.2s, transform 0.1s;
+}
+.src:hover { background: rgba(139,123,255,0.45); transform: scale(1.05); }
+.delta-chip { display: inline-flex; gap: 0.3rem; padding: 0.25rem 0.65rem; border-radius: var(--bk-radius-pill); font-weight: 800; font-size: var(--bk-text-s); }
+.delta-chip.pos { background: rgba(70,230,160,0.2); color: #8dffcc; }
+.delta-chip.neg { background: rgba(255,93,115,0.22); color: #ffa3b0; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.field { display: grid; gap: 0.35rem; max-width: 320px; margin: 1rem auto 0; font-weight: 700; text-align: center; }
+.field input {
+  font: inherit; text-align: center; padding: 0.7rem 1rem; border-radius: var(--bk-radius-m);
+  border: 2px solid var(--bk-line); background: rgba(0,0,0,0.25); color: var(--bk-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field input:focus {
+  border-color: var(--bk-yellow);
+  outline: none;
+  box-shadow: 0 0 12px rgba(255,203,46,0.4);
+}
+
+/* Medidor de qualidade (3 barrinhas) */
+.pips { display: inline-flex; gap: 3px; }
+.pip { width: 16px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.16); }
+.pips--q1 .pip.on { background: var(--bk-pink); }
+.pips--q2 .pip.on { background: var(--bk-yellow); }
+.pips--q3 .pip.on { background: var(--bk-green); }
+
+/* Painel de recursos (HUD) */
+.hud {
+  position: sticky; top: 0.4rem; z-index: 6; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;
+  padding: 0.5rem; margin-bottom: 1rem; border-radius: var(--bk-radius-m);
+  background: rgba(8,12,38,0.82); border: 1px solid var(--bk-line); backdrop-filter: blur(12px); box-shadow: var(--bk-shadow-card);
+}
+@media (min-width: 760px) { .hud { grid-template-columns: repeat(4, 1fr); } }
+
+.stat {
+  position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; align-items: center;
+  padding: 0.45rem 0.5rem; border-radius: 16px; background: var(--bk-surface); border: 1px solid var(--bk-line);
+}
+.stat__face svg { display: block; width: 40px; height: 40px; }
+.stat__face { transition: transform 0.3s var(--bk-ease-pop); }
+.stat.is-hit .stat__face { animation: wobble 0.6s; }
+.stat__top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.25rem; font-weight: 800; font-size: var(--bk-text-s); }
+.stat__num { font-family: var(--bk-font-hud); font-size: 1.05rem; }
+.stat__role { font-size: 0.7rem; color: var(--bk-text-dim); line-height: 1.2; margin-bottom: 0.2rem; }
+.bar { height: 10px; border-radius: var(--bk-radius-pill); background: rgba(255,255,255,0.12); overflow: hidden; }
+.bar__fill { height: 100%; width: 0; border-radius: inherit; background: var(--c); transition: width 0.9s var(--bk-ease-pop); }
+.stat.is-low { border-color: var(--bk-red); }
+.stat.is-low .bar__fill { animation: blink 0.9s infinite; }
+.stat__delta {
+  position: absolute; right: 0.4rem; top: -0.7rem; padding: 0.1rem 0.5rem; border-radius: var(--bk-radius-pill);
+  font-weight: 900; font-size: var(--bk-text-s); opacity: 0; pointer-events: none;
+}
+.stat__delta.pos { background: var(--bk-green); color: #05301f; }
+.stat__delta.neg { background: var(--bk-red); color: #fff; }
+.stat__delta.show { animation: delta-pop 1.9s var(--bk-ease-soft) both; }
+/* Telemóvel: painel compacto, 4 colunas (declarado depois de .stat para ter prioridade) */
+@media (max-width: 759px) {
+  .hud { grid-template-columns: repeat(4, 1fr); gap: 0.35rem; padding: 0.35rem; }
+  .stat { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 0.2rem; padding: 0.4rem 0.3rem; }
+  .stat__face svg { width: 34px; height: 34px; }
+  .stat__body { width: 100%; }
+  .stat__top { justify-content: center; gap: 0.3rem; }
+  .stat__name, .stat__role { display: none; }
+  .stat__delta { right: 50%; transform: translateX(50%); top: -0.8rem; }
+}
+
+/* ---------- Ecrã: início ---------- */
+.intro { text-align: center; }
+.intro__mascot { width: min(160px, 44vw); margin: 0.5rem auto 0; animation: bob 4s ease-in-out infinite; filter: drop-shadow(0 18px 24px rgba(0,0,0,0.45)); }
+.title { font-size: var(--bk-text-hero); letter-spacing: 0.01em; margin: 0.25rem 0 0; text-shadow: 0 6px 0 rgba(0,0,0,0.3); }
+.title b {
+  display: block; font-weight: 700; padding: 0.05em 0.35em 0.12em; margin: 0.1em auto 0; width: fit-content; transform: rotate(-2deg);
+  color: #2a1d00; background: linear-gradient(180deg, #ffe066, var(--bk-yellow)); border-radius: 0.25em;
+  box-shadow: 0 0.08em 0 var(--bk-yellow-deep), 0 0 0 0.05em var(--bk-red);
+  text-shadow: none;
+}
+.slogan { display: inline-block; margin: 1.1rem 0 0; padding: 0.35rem 1rem; border-radius: var(--bk-radius-pill); font-family: var(--bk-font-display); font-weight: 500; font-size: var(--bk-text-m); background: rgba(255,59,71,0.22); border: 1px solid var(--bk-red); }
+.subtitle { font-family: var(--bk-font-display); font-size: var(--bk-text-l); color: var(--bk-text-dim); margin-top: 1rem; }
+.story { max-width: 560px; margin: 1.25rem auto 0; text-align: left; }
+.story p:last-child { margin-bottom: 0; }
+.howto { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); text-align: left; }
+.howto li { background: var(--bk-surface); border: 1px solid var(--bk-line); border-radius: var(--bk-radius-m); padding: 0.8rem; font-size: var(--bk-text-s); }
+.howto li b { display: block; font-family: var(--bk-font-display); }
+.howto li span { font-size: 1.6rem; display: block; }
+
+/* ---------- Ecrã: escolher local ---------- */
+.screen-head { text-align: center; margin-bottom: 1.1rem; }
+.screen-head h2 { font-size: var(--bk-text-xl); }
+.sites { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .sites { grid-template-columns: repeat(3, 1fr); } }
+.site {
+  text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 0.6rem;
+  border: 2px solid var(--bk-line); transition: transform 0.25s var(--bk-ease-pop), border-color 0.2s, box-shadow 0.2s;
+}
+.site:hover { transform: translateY(-4px); }
+.site.is-selected { border-color: var(--bk-yellow); transform: translateY(-6px); box-shadow: 0 0 0 4px rgba(255,203,46,0.25), 0 18px 40px rgba(255,203,46,0.2); }
+.site__emoji { font-size: 2.6rem; line-height: 1; }
+.site h3 { font-size: 1.3rem; margin: 0; }
+.site__tag { font-size: var(--bk-text-s); color: var(--bk-text-dim); margin: 0; }
+.traits { display: grid; gap: 0.35rem; margin: 0.2rem 0; }
+.trait { display: grid; grid-template-columns: 6.2rem auto 1fr; gap: 0.5rem; align-items: center; font-size: var(--bk-text-s); font-weight: 700; }
+.trait__val { color: var(--bk-text-dim); font-weight: 600; }
+.site__proscons { font-size: var(--bk-text-s); display: grid; gap: 0.2rem; }
+.site__check { margin-top: auto; align-self: flex-start; opacity: 0; transition: opacity 0.2s; }
+.site.is-selected .site__check { opacity: 1; }
+
+/* ---------- Ecrã: preparar base ---------- */
+.points {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem;
+  padding: 0.7rem 1rem; border-radius: var(--bk-radius-m); background: var(--bk-surface-strong); font-weight: 800;
+}
+.points__num { font-family: var(--bk-font-display); font-size: 2rem; color: var(--bk-yellow); line-height: 1; }
+.points.is-done .points__num { color: var(--bk-green); }
+.alloc { display: grid; gap: 0.7rem; }
+.alloc__row { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; align-items: center; }
+.alloc__row b { font-family: var(--bk-font-display); font-size: 1.15rem; }
+.alloc__row small { display: block; color: var(--bk-text-dim); line-height: 1.3; }
+.stepper { display: inline-flex; align-items: center; gap: 0.5rem; }
+.stepper button {
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; font-size: 1.5rem; font-weight: 800; line-height: 1;
+  background: var(--bk-surface-strong); transition: transform 0.15s var(--bk-ease-pop), background 0.2s;
+}
+.stepper button:hover:not(:disabled) { background: rgba(255,255,255,0.25); transform: scale(1.1); }
+.stepper button:disabled { opacity: 0.3; cursor: not-allowed; }
+.stepper output { min-width: 2.6rem; text-align: center; font-family: var(--bk-font-display); font-size: 1.4rem; font-weight: 700; }
+.site-banner { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+
+/* ---------- Ecrã: problemas ---------- */
+.days { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.9rem; }
+.day-dot { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: var(--bk-text-s); background: var(--bk-surface-strong); }
+.day-dot.is-done { background: var(--bk-green); color: #05301f; }
+.day-dot.is-current { background: var(--bk-yellow); color: #2a1d00; box-shadow: 0 0 0 4px rgba(255,203,46,0.3); }
+
+.scene { position: relative; height: 150px; border-radius: var(--bk-radius-m); display: grid; place-items: center; overflow: hidden; margin-bottom: 1rem; background: var(--scene-bg); }
+.scene::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, rgba(255,255,255,0.28), transparent 60%); }
+.scene__emoji { font-size: 5.2rem; line-height: 1; z-index: 1; filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35)); }
+.scene--pulse .scene__emoji { animation: pulse 1.6s ease-in-out infinite; }
+.scene--float .scene__emoji { animation: bob 3.2s ease-in-out infinite; }
+.scene--shake .scene__emoji { animation: wobble 1.8s ease-in-out infinite; }
+
+.event-card h2 { font-size: var(--bk-text-xl); margin-top: 0.5rem; }
+.question { font-family: var(--bk-font-display); font-size: var(--bk-text-l); margin: 0.9rem 0 0; }
+
+.choice {
+  display: flex; align-items: center; gap: 0.9rem; width: 100%; text-align: left; margin-top: 0.7rem; cursor: pointer;
+  padding: 0.95rem 1rem; border-radius: var(--bk-radius-m); background: var(--bk-surface-strong); border: 2px solid var(--bk-line);
+  transition: transform 0.2s var(--bk-ease-pop), border-color 0.2s, background 0.2s;
+}
+.choice:hover { transform: translateY(-3px); border-color: var(--bk-yellow); background: rgba(255,255,255,0.18); }
+.choice__letter {
+  flex: none; width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--bk-font-display); font-weight: 700; background: var(--bk-yellow); color: #2a1d00;
+}
+.choice__text { flex: 1; }
+.choice__text strong { display: block; font-size: var(--bk-text-m); }
+.choice__text small { color: var(--bk-text-dim); font-size: var(--bk-text-s); }
+.choice__affects { flex: none; font-size: 1.1rem; letter-spacing: 0.15rem; }
+
+.feedback { margin-top: 1rem; animation: pop-in 0.5s var(--bk-ease-pop) both; }
+.feedback__picked { font-weight: 800; margin-bottom: 0.4rem; }
+.fact {
+  margin: 0.9rem 0; padding: 0.8rem 1rem; border-radius: var(--bk-radius-m);
+  background: rgba(76,215,255,0.12); border: 2px dashed var(--bk-cyan); display: flex; gap: 0.7rem; align-items: flex-start;
+}
+.fact__icon { font-size: 1.6rem; line-height: 1; }
+.fact p { margin: 0 0 0.3rem; font-weight: 700; }
+.alert { padding: 0.7rem 1rem; border-radius: var(--bk-radius-m); background: rgba(255,59,71,0.2); border: 1px solid var(--bk-red); font-weight: 800; margin: 0.8rem 0; }
+
+/* ---------- Ecrã: resultado ---------- */
+.result { text-align: center; }
+.result__mascot { width: min(170px, 44vw); margin: 0 auto; animation: bob 3s ease-in-out infinite; }
+.stars { display: flex; justify-content: center; gap: 0.4rem; margin: 0.3rem 0; }
+.stars span { font-size: clamp(3rem, 14vw, 4.4rem); line-height: 1; color: rgba(255,255,255,0.18); }
+.stars span.on { color: var(--bk-yellow); filter: drop-shadow(0 0 14px rgba(255,203,46,0.7)); animation: star-pop 0.7s var(--bk-ease-pop) both; animation-delay: calc(var(--i) * 0.3s + 0.3s); }
+.score { font-family: var(--bk-font-display); font-size: var(--bk-text-hero); font-weight: 700; line-height: 1; }
+.score small { font-size: 1.4rem; color: var(--bk-text-dim); }
+.final-bars { display: grid; gap: 0.6rem; max-width: 460px; margin: 1.25rem auto 0; text-align: left; }
+.final-bars .row { display: grid; grid-template-columns: 7.2rem 1fr 2.4rem; align-items: center; gap: 0.6rem; font-weight: 800; font-size: var(--bk-text-s); }
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
+.confetti i { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 2px; animation: fall linear forwards; }
+
+/* ---------- Ecrã: NASA Debrief ---------- */
+.debrief__head { text-align: center; }
+.badge-nasa { display: inline-flex; gap: 0.4rem; align-items: center; padding: 0.3rem 0.9rem; border-radius: var(--bk-radius-pill); background: var(--bk-violet); color: #11083d; font-weight: 900; margin-bottom: 0.6rem; }
+.timeline { display: grid; gap: 1rem; margin: 1.25rem 0; }
+.tl { border-left: 6px solid var(--bk-violet); }
+.tl.is-skipped { opacity: 0.72; border-left-color: var(--bk-line); }
+.tl__top { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+.tl__top h3 { margin: 0; font-size: 1.3rem; }
+.tl__emoji { font-size: 1.8rem; }
+.tl__pick { font-weight: 800; }
+.tl__learn { margin-top: 0.7rem; padding: 0.8rem 1rem; border-radius: var(--bk-radius-m); background: rgba(139,123,255,0.14); }
+.tl__learn p { margin: 0 0 0.5rem; }
+.sources { display: grid; gap: 0.7rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 0.8rem; }
+.source { padding: 0.9rem; border-radius: var(--bk-radius-m); background: var(--bk-surface); border: 1px solid var(--bk-line); font-size: var(--bk-text-s); }
+.source b { display: block; font-family: var(--bk-font-display); font-size: 1.05rem; }
+.source .em { font-size: 1.6rem; display: block; }
+.note { font-size: var(--bk-text-s); color: var(--bk-text-dim); margin-top: 1rem; }
+
+/* ---------- Animações ---------- */
+@keyframes shield-deploy {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes energy-pulse {
+  0%, 100% { filter: brightness(1) blur(0px); }
+  50% { filter: brightness(1.5) blur(2px); }
+}
+@keyframes screen-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+@keyframes wobble { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-9deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(-5deg); } 80% { transform: rotate(3deg); } }
+@keyframes blink { 50% { opacity: 0.45; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes drive { from { transform: translateX(-100px); } to { transform: translateX(110vw); } }
+@keyframes shoot { 0% { opacity: 0; transform: translate(0, 0) rotate(18deg); } 3% { opacity: 1; } 12% { opacity: 0; transform: translate(70vw, 24vw) rotate(18deg); } 100% { opacity: 0; } }
+@keyframes delta-pop { 0% { opacity: 0; margin-top: 8px; scale: 0.7; } 15% { opacity: 1; margin-top: -4px; scale: 1.15; } 70% { opacity: 1; margin-top: -8px; scale: 1; } 100% { opacity: 0; margin-top: -18px; } }
+@keyframes star-pop { 0% { opacity: 0; transform: scale(0) rotate(-90deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+@keyframes wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-24deg); } }
+.mascot-arm { transform-box: fill-box; transform-origin: 50% 10%; animation: wave 1.4s ease-in-out infinite; }
+
+/* ---------- Acessibilidade: reduzir movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .moon__rover, .shooting, .earth { display: none; }
+}
+
+</style>
+</head>
+<body>
+  <!-- Fundo animado (decorativo) -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="earth" aria-hidden="true"></div>
+  <div class="shooting" aria-hidden="true"></div>
+  <div class="moon" id="moon" aria-hidden="true">
+    <div class="moon__surface"><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <!-- Aplicação -->
+  <div class="app">
+    <div class="nebula-container">
+      <div class="nebula nebula-1"></div>
+      <div class="nebula nebula-2"></div>
+      <div class="nebula nebula-3"></div>
+    </div>
+    <header class="topbar">
+      <div class="brand" id="brand"></div>
+      <button class="icon-btn" id="btn-restart" data-action="restart" hidden>Recomeçar</button>
+    </header>
+
+    <ol class="steps" id="steps" aria-label="Etapas da missão" hidden></ol>
+    <div class="hud" id="hud" role="group" aria-label="Estado da base" hidden></div>
+
+    <main id="screen"></main>
+
+    <footer class="footer" id="footer"></footer>
+  </div>
+
+  <script>
+  /* O jogo carrega os dados de um ficheiro JSON externo para facilitar a manutenção. */
+  async function loadGameData() {
+    try {
+      const response = await fetch('game-data.json');
+      if (!response.ok) throw new Error(`Erro ao carregar game-data.json: ${response.status}`);
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      alert('Erro crítico: Não foi possível carregar os dados do jogo. Certifica-te que estás a correr o ficheiro através de um servidor (Live Server, etc).');
+      return null;
+    }
+  }
+  </script>;
+
+</script>
+  <script>
+/* ==========================================================
+   WELWITSCHIA LUNAR - ARTE (SVG em texto)
+   Cada função devolve uma string SVG. Podes copiar o SVG para
+   o Figma, ou trocar por <img src="..."> no teu framework.
+   ========================================================== */
+window.BK_ART = {
+
+  /* Logótipo: lua com cratera, anel vermelho e estrela amarela (cores de Angola) */
+  logo() {
+    return `<svg viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="17" fill="#d6d9ea" stroke="#ff3b47" stroke-width="3"/>
+      <circle cx="13" cy="16" r="4" fill="#9aa3d6"/><circle cx="23" cy="27" r="5" fill="#9aa3d6"/>
+      <path d="M29 4l2 4.2 4.6.7-3.3 3.3.8 4.6-4.1-2.2-4.1 2.2.8-4.6-3.3-3.3 4.6-.7z" fill="#ffcb2e"/>
+    </svg>`;
+  },
+
+  /* Rosto de astronauta para o painel. mood: happy | neutral | worried */
+  face(mood, color) {
+    const mouth = {
+      happy: 'M16 30 Q24 38 32 30',
+      neutral: 'M18 31 H30',
+      worried: 'M17 34 Q24 27 31 34'
+    }[mood] || 'M18 31 H30';
+    const brows = mood === 'worried'
+      ? '<path d="M14 18 L21 21 M34 18 L27 21" stroke="#fff" stroke-width="2" stroke-linecap="round"/>' : '';
+    return `<svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="#eef1ff" stroke="${color}" stroke-width="3"/>
+      <rect x="7" y="12" width="34" height="27" rx="13" fill="#0e1536"/>
+      <path d="M12 18 q6-5 13-3" stroke="#6fa3ff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+      <circle cx="18" cy="24" r="2.6" fill="#fff"/><circle cx="30" cy="24" r="2.6" fill="#fff"/>
+      ${brows}
+      <path d="${mouth}" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </svg>`;
+  },
+
+  /* Mascote do jogo (o Comandante). mood: happy | sad */
+  mascot(mood) {
+    const sad = mood === 'sad';
+    const mouth = sad ? 'M61 61 Q70 52 79 61' : 'M60 56 Q70 66 80 56';
+    const brows = sad ? '<path d="M52 38 L64 43 M88 38 L76 43" stroke="#fff" stroke-width="3" stroke-linecap="round"/>' : '';
+    return `<svg viewBox="0 -14 140 184" role="img" aria-label="Astronauta mascote da Welwitschia Lunar">
+      <rect x="28" y="78" width="84" height="62" rx="16" fill="#9aa3d6"/>
+      <rect x="48" y="128" width="18" height="30" rx="9" fill="#e9edff"/><rect x="74" y="128" width="18" height="30" rx="9" fill="#e9edff"/>
+      <rect x="44" y="150" width="26" height="14" rx="7" fill="#ff3b47"/><rect x="70" y="150" width="26" height="14" rx="7" fill="#ff3b47"/>
+      <rect x="36" y="76" width="68" height="62" rx="26" fill="#f5f7ff"/>
+      <rect x="54" y="96" width="32" height="20" rx="6" fill="#101736"/>
+      <circle cx="63" cy="106" r="3.2" fill="#ff3b47"/><circle cx="70" cy="106" r="3.2" fill="#ffcb2e"/><circle cx="77" cy="106" r="3.2" fill="#4cd7ff"/>
+      <rect x="41" y="84" width="14" height="5" fill="#ff3b47"/><rect x="41" y="89" width="14" height="5" fill="#111"/><circle cx="48" cy="89" r="1.6" fill="#ffcb2e"/>
+      <rect x="18" y="84" width="22" height="42" rx="11" fill="#e9edff"/>
+      <g class="${sad ? '' : 'mascot-arm'}"><rect x="100" y="72" width="22" height="42" rx="11" fill="#e9edff" transform="rotate(${sad ? 0 : 22} 111 78)"/></g>
+      <line x1="70" y1="8" x2="70" y2="-4" stroke="#cfd6ff" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="70" cy="-6" r="5" fill="#ffcb2e"/>
+      <circle cx="70" cy="48" r="40" fill="#f5f7ff" stroke="#cfd6ff" stroke-width="3"/>
+      <rect x="36" y="27" width="68" height="42" rx="21" fill="#0b1030"/>
+      <path d="M47 36 q11-7 24-4" stroke="#6fa3ff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75"/>
+      <circle cx="58" cy="48" r="4.5" fill="#fff"/><circle cx="82" cy="48" r="4.5" fill="#fff"/>
+      <circle cx="59.5" cy="46.5" r="1.4" fill="#0b1030"/><circle cx="83.5" cy="46.5" r="1.4" fill="#0b1030"/>
+      ${brows}
+      <path d="${mouth}" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>`;
+  },
+
+  simBase() {
+    return `<svg viewBox="0 0 100 100" class="sim-svg" aria-hidden="true">
+      <circle id="sim-shield" class="sim-part" cx="50" cy="50" r="40" fill="rgba(76,215,255,0.2)" stroke="var(--bk-cyan)" stroke-width="2" opacity="0" style="transform: scale(0); transform-origin: center;"/>
+      <rect id="sim-core" class="sim-part" x="40" y="40" width="20" height="20" rx="4" fill="var(--bk-surface)" stroke="white" stroke-width="1"/>
+      <circle id="sim-light" class="sim-part" cx="50" cy="35" r="3" fill="var(--bk-green)"/>
+    </svg>`;
+  },
+
+  /* Rover que passa no fundo, sempre a andar */
+  rover() {
+    return `<svg class="moon__rover" viewBox="0 0 80 46" aria-hidden="true">
+      <line x1="62" y1="18" x2="70" y2="4" stroke="#e9edff" stroke-width="2"/><circle cx="70" cy="4" r="3" fill="#ff3b47"/>
+      <rect x="22" y="6" width="30" height="7" rx="2" fill="#4cd7ff"/>
+      <rect x="12" y="14" width="52" height="16" rx="6" fill="#f5f7ff"/>
+      <rect x="44" y="17" width="14" height="8" rx="3" fill="#0e1536"/>
+      <g class="wheel"><circle cx="20" cy="36" r="8" fill="#2a3163" stroke="#e9edff" stroke-width="2"/><path d="M20 30v12M14 36h12" stroke="#e9edff" stroke-width="1.5"/></g>
+      <g class="wheel"><circle cx="40" cy="36" r="8" fill="#2a3163" stroke="#e9edff" stroke-width="2"/><path d="M40 30v12M34 36h12" stroke="#e9edff" stroke-width="1.5"/></g>
+      <g class="wheel"><circle cx="60" cy="36" r="8" fill="#2a3163" stroke="#e9edff" stroke-width="2"/><path d="M60 30v12M54 36h12" stroke="#e9edff" stroke-width="1.5"/></g>
+    </svg>`;
+  }
+};
+
+</script>
+  <script>
+/* ==========================================================
+   WELWITSCHIA LUNAR - LÓGICA E ECRÃS
+   Sem dependências. Estrutura pensada para ser portada:
+   - state          -> useState / store / signals
+   - views.*        -> componentes (cada um devolve HTML)
+   - actions.*      -> manipuladores de eventos
+   - updateHud      -> componente do painel de recursos
+   ========================================================== */
+  (async function () {
+    'use strict';
+
+    // Carrega os dados externamente
+    const D = await loadGameData();
+    if (!D) return;
+
+    const ART = window.BK_ART;
+    const R = D.resources;
+    const RULES = D.rules;
+
+
+  /* ---------- Utilitários ---------- */
+  const $ = (sel, el = document) => el.querySelector(sel);
+  const clamp = (n, a = 0, b = 100) => Math.max(a, Math.min(b, n));
+  const lcfirst = t => t.charAt(0).toLowerCase() + t.slice(1);
+  const sign = n => (n > 0 ? '+' : '') + n;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const resById = id => R.find(r => r.id === id);
+  const siteById = id => D.sites.find(s => s.id === id);
+  const srcName = id => (D.sources.find(s => s.id === id) || { name: id }).name;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateSimulation(data) {
+    if (!data) return;
+    const scene = $('.scene');
+    if (!scene) return;
+
+    if (data.component) {
+      const component = document.getElementById(`sim-${data.component}`);
+      if (component) {
+        component.className.baseVal = `sim-part state-${data.state}`;
+      }
+    }
+
+    if (data.anim) {
+      scene.className = `scene scene--${data.anim}`;
+    }
+  }
+
+
+  /* ---------- Estado ---------- */
+  function fresh(name) {
+    return {
+      screen: 'intro',
+      name: name || '',
+      siteId: null,
+      alloc: Object.fromEntries(R.map(r => [r.id, RULES.defaultPoints])),
+      values: null,
+      eventIndex: 0,
+      eventPool: [],     // Eventos selecionados para esta missão
+      feedback: null,   // { choice, failedOn }
+      history: [],      // { eventId, choice }
+      failed: false
+    };
+  }
+  let state = fresh('');
+  const playerName = () => state.name || 'Comandante';
+
+
+  /* ---------- Regras do jogo (simples e fáceis de editar) ---------- */
+  function startValues() {
+    const site = siteById(state.siteId);
+    const out = {};
+    R.forEach(r => { out[r.id] = clamp(state.alloc[r.id] + ((site && site.mods[r.id]) || 0)); });
+    return out;
+  }
+  const mood = v => (v >= 60 ? 'happy' : v >= 30 ? 'neutral' : 'worried');
+  function summary() {
+    const avg = Math.round(R.reduce((a, r) => a + state.values[r.id], 0) / R.length);
+    const stars = state.failed ? 0 : avg >= RULES.starsAt.three ? 3 : avg >= RULES.starsAt.two ? 2 : 1;
+    return { avg, stars, rank: D.ranks.find(x => x.stars === stars) };
+  }
+
+  /* ---------- Pedaços de interface reutilizáveis ---------- */
+  const pips = score =>
+    `<span class="pips pips--q${score}" role="img" aria-label="${score} de 3">` +
+    [0, 1, 2].map(i => `<span class="pip${i < score ? ' on' : ''}"></span>`).join('') + '</span>';
+
+  function effectChips(effects) {
+    return R.filter(r => effects[r.id])
+      .map(r => `<span class="delta-chip ${effects[r.id] > 0 ? 'pos' : 'neg'}">${r.icon} ${r.label} ${sign(effects[r.id])}</span>`)
+      .join('');
+  }
+
+  function sourceChips(ids) {
+    return ids.map(id => {
+      const src = D.sources.find(s => s.id === id) || { name: id, url: '#' };
+      return `<a href="${src.url}" target="_blank" rel="noopener" class="src">🛰️ ${esc(src.name)}</a>`;
+    }).join(' ');
+  }
+
+  /* ---------- Painel de recursos (construído uma vez, atualizado com animação) ---------- */
+  function buildHud() {
+    $('#hud').innerHTML = R.map(r => `
+      <div class="stat" data-res="${r.id}" style="--c:${r.color}">
+        <div class="stat__face">${ART.face('happy', r.color)}</div>
+        <div class="stat__body">
+          <div class="stat__top"><span title="${r.label}">${r.icon}<span class="stat__name"> ${r.label}</span></span><span class="stat__num">0</span></div>
+          <div class="stat__role">${esc(r.astro.name)}, ${esc(r.astro.role)}</div>
+          <div class="bar" role="progressbar" aria-label="${r.label}" aria-valuemin="0" aria-valuemax="100"><div class="bar__fill"></div></div>
+        </div>
+        <span class="stat__delta" aria-hidden="true"></span>
+      </div>`).join('');
+  }
+
+  function updateHud(values, effects) {
+    let isAnyCritical = false;
+
+    R.forEach(r => {
+      const el = $(`.stat[data-res="${r.id}"]`);
+      const v = Math.round(values[r.id]);
+      el.querySelector('.bar__fill').style.width = v + '%';
+      el.querySelector('.bar').setAttribute('aria-valuenow', v);
+      el.querySelector('.stat__num').textContent = v;
+
+      const critical = v < 30;
+      el.classList.toggle('is-low', critical);
+      if (critical) isAnyCritical = true;
+
+      const m = mood(v);
+      if (el.dataset.mood !== m) {
+        el.dataset.mood = m;
+        el.querySelector('.stat__face').innerHTML = ART.face(m, r.color);
+      }
+      const eff = effects && effects[r.id];
+      if (eff) {
+        const d = el.querySelector('.stat__delta');
+        d.textContent = sign(eff);
+        d.className = 'stat__delta ' + (eff > 0 ? 'pos' : 'neg');
+        void d.offsetWidth;            // reinicia a animação
+        d.classList.add('show');
+        if (eff < 0) { el.classList.remove('is-hit'); void el.offsetWidth; el.classList.add('is-hit'); }
+      }
+    });
+
+    document.body.classList.toggle('critical-alert', isAnyCritical);
+  }
+
+  /* ---------- Ecrãs ---------- */
+  const views = {
+
+    intro() {
+      return `<section class="screen intro">
+        <div class="intro__mascot">${ART.mascot('happy')}</div>
+        <h1 class="title" tabindex="-1" data-focus>Welwitschia<b>Lunar</b></h1>
+        <p class="slogan">${esc(D.meta.slogan)}</p>
+        <p class="subtitle">${esc(D.meta.tagline)} para ${esc(D.meta.audience)}</p>
+        <div class="card story">${D.story.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+        <label class="field">Como te chamas, comandante?
+          <input id="name" type="text" maxlength="16" autocomplete="off" placeholder="O teu nome" value="${esc(state.name)}">
+        </label>
+        <div class="actions"><button class="btn btn--primary btn--xl" data-action="start">🚀 Começar o treino</button></div>
+        <ul class="howto">${D.howto.map(h => `<li><span>${h.icon}</span><b>${esc(h.title)}</b>${esc(h.text)}</li>`).join('')}</ul>
+      </section>`;
+    },
+
+    site() {
+      const cards = D.sites.map(s => `
+        <button type="button" class="card site${state.siteId === s.id ? ' is-selected' : ''}" data-action="pick-site" data-id="${s.id}" aria-pressed="${state.siteId === s.id}">
+          <div class="site__emoji">${s.emoji}</div>
+          <h3>${esc(s.name)}</h3>
+          <p class="site__tag">${esc(s.tagline)}</p>
+          <div class="traits">${D.traits.map(t => `
+            <div class="trait"><span>${t.icon} ${t.label}</span>${pips(s.traits[t.id].score)}<span class="trait__val">${s.traits[t.id].label}</span></div>`).join('')}
+          </div>
+          <div class="site__proscons"><span>👍 ${esc(s.pro)}</span><span>👎 ${esc(s.con)}</span></div>
+          <div class="chips">${effectChips(s.mods)}</div>
+          <span class="chip site__check">✅ Local escolhido</span>
+        </button>`).join('');
+      return `<section class="screen">
+        <div class="screen-head">
+          <h2 tabindex="-1" data-focus>${esc(playerName())}, onde vais construir a base?</h2>
+          <p class="muted">Toca num local para o escolher. Cada um dá bónus e penalidades à partida.</p>
+        </div>
+        <div class="sites">${cards}</div>
+        <div class="actions"><button class="btn btn--primary btn--xl" id="btn-site" data-action="to-prepare" ${state.siteId ? '' : 'disabled'}>Preparar a base</button></div>
+      </section>`;
+    },
+
+    prepare() {
+      const s = siteById(state.siteId);
+      const rows = R.map(r => `
+        <div class="alloc__row">
+          <div><b>${r.icon} ${r.label}</b><small>${esc(r.tip)}</small></div>
+          <div class="stepper">
+            <button type="button" data-action="dec" data-res="${r.id}" aria-label="Menos ${r.label}">−</button>
+            <output id="alloc-${r.id}" aria-live="polite">${state.alloc[r.id]}</output>
+            <button type="button" data-action="inc" data-res="${r.id}" aria-label="Mais ${r.label}">+</button>
+          </div>
+        </div>`).join('');
+      return `<section class="screen">
+        <div class="screen-head">
+          <h2 tabindex="-1" data-focus>Reparte os pontos da base</h2>
+          <p class="muted">Cada astronauta cuida de um recurso. Tira pontos de um para dar a outro.</p>
+        </div>
+        <div class="site-banner"><span class="chip">${s.emoji} ${esc(s.name)}</span>${effectChips(s.mods)}</div>
+        <div class="points" id="points"><span>Pontos livres</span><span class="points__num" id="free">0</span></div>
+        <div class="card alloc">${rows}</div>
+        <div class="actions">
+          <button class="btn btn--ghost" data-action="balance">Equilibrar tudo</button>
+          <button class="btn btn--primary btn--xl" id="btn-launch" data-action="launch">🚀 Lançar a missão</button>
+        </div>
+      </section>`;
+    },
+
+    event() {
+      const ev = state.eventPool[state.eventIndex];
+      const dots = state.eventPool.map((e, i) =>
+        `<span class="day-dot${i < state.eventIndex ? ' is-done' : ''}${i === state.eventIndex ? ' is-current' : ''}" aria-label="Dia ${e.day}">${i < state.eventIndex ? '✓' : i + 1}</span>`).join('');
+      return `<section class="screen">
+        <div class="days" aria-label="Dia ${state.eventIndex + 1} de ${state.eventPool.length}">${dots}</div>
+        <article class="card event-card">
+          <div class="scene scene--${ev.scene.anim}" style="--scene-bg:${ev.scene.bg}" aria-hidden="true">
+            ${state.feedback ? ART.simBase() : `<span class="scene__emoji">${ev.scene.emoji}</span>`}
+          </div>
+          <span class="chip chip--day">Dia ${state.eventIndex + 1} de ${state.eventPool.length}</span>
+          <h2 tabindex="-1" data-focus>${esc(ev.title)}</h2>
+          <p>${esc(ev.story)}</p>
+          <p class="question">${esc(ev.question)}</p>
+          <div id="choice-area">${state.feedback ? feedbackHtml(ev) : choicesHtml(ev)}</div>
+        </article>
+      </section>`;
+    },
+
+    result() {
+      const { avg, stars, rank } = summary();
+      const bars = R.map(r => `
+        <div class="row" style="--c:${r.color}">
+          <span>${r.icon} ${r.label}</span>
+          <div class="bar"><div class="bar__fill" style="width:${Math.round(state.values[r.id])}%"></div></div>
+          <span>${Math.round(state.values[r.id])}</span>
+        </div>`).join('');
+      return `<section class="screen result">
+        <div class="result__mascot">${ART.mascot(stars === 0 ? 'sad' : 'happy')}</div>
+        <div class="stars" role="img" aria-label="${stars} de 3 estrelas">${[0, 1, 2].map(i => `<span class="${i < stars ? 'on' : ''}" style="--i:${i}">★</span>`).join('')}</div>
+        <h2 tabindex="-1" data-focus>${esc(rank.title)}</h2>
+        <div class="score"><span id="score-num">0</span><small>/100</small></div>
+        <p class="lead">${esc(playerName())}, ${esc(lcfirst(rank.message))}</p>
+        <div class="final-bars">${bars}</div>
+        <div class="actions">
+          <button class="btn btn--primary btn--xl" data-action="debrief">🛰️ Ver o NASA Debrief</button>
+          <button class="btn btn--ghost" data-action="replay">Jogar outra vez</button>
+        </div>
+        <span class="sr-only" data-final="${avg}"></span>
+      </section>`;
+    },
+
+    debrief() {
+      const site = siteById(state.siteId);
+      if (!site) return `<section class="screen"><h2>Erro: Local não encontrado</h2></section>`;
+      const items = D.events.map((ev, i) => {
+        const h = state.history.find(x => x.eventId === ev.id);
+        const ch = h ? ev.choices[h.choice] : null;
+        return `<article class="card tl${h ? '' : ' is-skipped'}">
+          <div class="tl__top"><span class="tl__emoji">${ev.scene.emoji}</span><h3>Dia ${ev.day}: ${esc(ev.title)}</h3></div>
+          ${ch
+            ? `<p class="tl__pick">Escolheste: ${esc(ch.label)}</p><p>${esc(ch.result)}</p><div class="chips">${effectChips(ch.effects)}</div>`
+            : `<p class="muted">A missão terminou antes deste dia. Podes aprender a ciência na mesma.</p>`}
+          <div class="tl__learn"><p>${esc(ev.learn)}</p>${sourceChips(ev.sources)}</div>
+        </article>`;
+      }).join('');
+
+
+      // Filtrar fontes para mostrar apenas as relacionadas aos eventos ocorridos
+      const usedSourceIds = new Set();
+      state.history.forEach(h => {
+        const ev = D.events.find(e => e.id === h.eventId);
+        if (ev && ev.sources) ev.sources.forEach(s => usedSourceIds.add(s));
+      });
+
+      // Para simplificar e garantir que o debrief seja útil, vamos filtrar a lista de fontes
+      const relevantSources = D.sources.filter(s => {
+        // Inclui fontes de eventos que aconteceram
+        const usedInHistory = state.history.some(h => {
+          const ev = D.events.find(e => e.id === h.eventId);
+          return ev && ev.sources && ev.sources.includes(s.id);
+        });
+        // Inclui fontes relacionadas ao site escolhido
+        const usedInSite = site && D.traits.some(t => site.traits[t.id] && t.source === s.id);
+        return usedInHistory || usedInSite;
+      });
+
+      return `<section class="screen debrief">
+        <div class="debrief__head">
+          <span class="badge-nasa">🛰️ NASA Debrief</span>
+          <h2 tabindex="-1" data-focus>O que aconteceu e porquê</h2>
+          <p class="muted">Cada decisão do jogo vem de ciência real. Vê o que a NASA estuda por trás dela.</p>
+        </div>
+        <div class="card"><b>${site.emoji} ${esc(site.name)}</b>
+          <div class="traits" style="margin-top:.6rem">${D.traits.map(t => `
+            <div class="trait"><span>${t.icon} ${t.label}</span>${pips(site.traits[t.id].score)}<span class="trait__val">${site.traits[t.id].label} (${t.source})</span></div>`).join('')}
+          </div>
+        </div>
+        <div class="timeline">${items}</div>
+        <h3>Fontes NASA relacionadas</h3>
+        <div class="sources">${relevantSources.map(s => `<div class="source"><span class="em">${s.icon}</span><b>${esc(s.name)}</b>${esc(s.use)}</div>`).join('')}</div>
+        <p class="note">Nota: ${esc(D.meta.disclaimer)}</p>
+        <div class="actions"><button class="btn btn--primary btn--xl" data-action="replay">🚀 Nova missão</button></div>
+      </section>`;
+    }
+  };
+
+  function choicesHtml(ev) {
+    return ev.choices.map((c, i) => `
+      <button type="button" class="choice" data-action="choose" data-i="${i}">
+        <span class="choice__letter">${'AB'[i]}</span>
+        <span class="choice__text"><strong>${esc(c.label)}</strong><small>${esc(c.hint)}</small></span>
+        <span class="choice__affects" aria-hidden="true">${R.filter(r => c.effects[r.id]).map(r => r.icon).join('')}</span>
+      </button>`).join('');
+  }
+
+  function feedbackHtml(ev) {
+    const f = state.feedback;
+    const c = ev.choices[f.choice];
+    const last = state.eventIndex === D.events.length - 1;
+    const zero = f.failedOn && resById(f.failedOn);
+    const nextLabel = (zero || last) ? 'Ver o resultado' : `Ir para o dia ${ev.day + 1}`;
+    return `<div class="feedback" role="status" aria-live="polite">
+      <p class="feedback__picked">Escolheste: ${esc(c.label)}</p>
+      <p>${esc(c.result)}</p>
+      <div class="chips">${effectChips(c.effects)}</div>
+      <div class="fact"><span class="fact__icon">💡</span><div><p>${esc(ev.fact)}</p>${sourceChips(ev.sources)}</div></div>
+      ${zero ? `<div class="alert">⚠️ ${zero.icon} ${zero.label} chegou a zero. A missão tem de parar aqui.</div>` : ''}
+      <div class="actions"><button class="btn btn--primary btn--xl" data-action="next">${nextLabel}</button></div>
+    </div>`;
+  }
+
+  /* ---------- Ações ---------- */
+  const actions = {
+    start() {
+      const input = $('#name');
+      state.name = input ? input.value.trim() : state.name;
+      go('site');
+    },
+
+    'pick-site'(t) {
+      state.siteId = t.dataset.id;
+      document.querySelectorAll('.site').forEach(el => {
+        const on = el.dataset.id === state.siteId;
+        el.classList.toggle('is-selected', on);
+        el.setAttribute('aria-pressed', on);
+      });
+      $('#btn-site').disabled = false;
+    },
+
+    'to-prepare'() { go('prepare'); },
+
+    inc(t) { changeAlloc(t.dataset.res, +RULES.step); },
+    dec(t) { changeAlloc(t.dataset.res, -RULES.step); },
+    balance() { R.forEach(r => { state.alloc[r.id] = RULES.defaultPoints; }); refreshPrepare(); },
+
+    launch() {
+      state.values = startValues();
+
+      // Seleciona eventos aleatórios:
+      // Mantemos a sequência de 5 dias, mas escolhemos 5 eventos do pool total (sem repetir)
+      const shuffled = [...D.events].sort(() => 0.5 - Math.random());
+      state.eventPool = shuffled.slice(0, 5);
+
+      state.eventIndex = 0;
+      state.history = [];
+      state.feedback = null;
+      state.failed = false;
+      go('event');
+    },
+
+
+    choose(t) {
+      if (state.feedback) return;
+      const ev = state.eventPool[state.eventIndex];
+      const i = +t.dataset.i;
+      const choice = ev.choices[i];
+      const eff = choice.effects;
+
+      // 1. Trigger Visual Simulation Update
+      if (choice.sceneUpdate) {
+        updateSimulation(choice.sceneUpdate);
+      }
+
+      R.forEach(r => { if (eff[r.id]) state.values[r.id] = clamp(state.values[r.id] + eff[r.id]); });
+      const zero = R.find(r => state.values[r.id] <= 0);
+      state.failed = !!zero;
+      state.history.push({ eventId: ev.id, choice: i });
+      state.feedback = { choice: i, failedOn: zero ? zero.id : null };
+
+      // 2. Brief delay to let simulation animation play before showing text
+      setTimeout(() => {
+        $('#choice-area').innerHTML = feedbackHtml(ev);
+        updateHud(state.values, eff);
+        const fb = $('.feedback');
+        if (fb && fb.scrollIntoView) fb.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      }, 400);
+    },
+
+    next() {
+      const last = state.eventIndex === state.eventPool.length - 1;
+      if (state.failed || last) { go('result'); return; }
+      state.eventIndex += 1;
+      state.feedback = null;
+      go('event');
+    },
+
+    debrief() { go('debrief'); },
+
+    replay() { state = fresh(state.name); go('site'); },
+
+    restart() {
+      const playing = ['prepare', 'event'].includes(state.screen);
+      if (playing && !window.confirm('Queres mesmo recomeçar? Vais perder o progresso desta missão.')) return;
+      state = fresh(state.name);
+      go('intro');
+    }
+  };
+
+  function changeAlloc(id, delta) {
+    const used = R.reduce((a, r) => a + state.alloc[r.id], 0);
+    const free = RULES.totalPoints - used;
+    const next = state.alloc[id] + delta;
+    if (next < RULES.minPoints || next > RULES.maxPoints) return;
+    if (delta > 0 && free < delta) return;
+    state.alloc[id] = next;
+    refreshPrepare();
+  }
+
+  function refreshPrepare() {
+    const used = R.reduce((a, r) => a + state.alloc[r.id], 0);
+    const free = RULES.totalPoints - used;
+    $('#free').textContent = free;
+    $('#points').classList.toggle('is-done', free === 0);
+    R.forEach(r => {
+      $(`#alloc-${r.id}`).textContent = state.alloc[r.id];
+      $(`[data-action="inc"][data-res="${r.id}"]`).disabled = free < RULES.step || state.alloc[r.id] >= RULES.maxPoints;
+      $(`[data-action="dec"][data-res="${r.id}"]`).disabled = state.alloc[r.id] <= RULES.minPoints;
+    });
+    $('#btn-launch').disabled = free !== 0;
+    updateHud(startValues());
+  }
+
+  /* ---------- Navegação e ciclo de vida de cada ecrã ---------- */
+  const STEP_OF = { site: 0, prepare: 1, event: 2, result: 3, debrief: 4 };
+  const STEP_NAMES = ['Local', 'Base', 'Problemas', 'Resultado', 'Debrief'];
+
+  function renderSteps() {
+    const el = $('#steps');
+    const cur = STEP_OF[state.screen];
+    el.hidden = cur === undefined;
+    if (cur === undefined) return;
+    el.innerHTML = STEP_NAMES.map((n, i) =>
+      `<li class="${i < cur ? 'is-done' : ''}${i === cur ? ' is-current' : ''}"${i === cur ? ' aria-current="step"' : ''}><span>${n}</span></li>`).join('');
+  }
+
+  function go(screen) {
+    state.screen = screen;
+    render();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function render() {
+    const s = state.screen;
+    $('#screen').innerHTML = views[s]();
+    $('#hud').hidden = !(s === 'prepare' || s === 'event');
+    $('#btn-restart').hidden = s === 'intro';
+    renderSteps();
+    if (s === 'prepare') refreshPrepare();
+    if (s === 'event') updateHud(state.values);
+    if (s === 'result') celebrate();
+    const h = $('#screen [data-focus]');
+    if (h) h.focus({ preventScroll: true });
+  }
+
+  /* ---------- Efeitos: contagem da pontuação e confetis ---------- */
+  function celebrate() {
+    const { avg, stars } = summary();
+    const out = $('#score-num');
+    if (reduced) { out.textContent = avg; } else {
+      const t0 = performance.now();
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / 1400);
+        out.textContent = Math.round(avg * (1 - Math.pow(1 - p, 3)));
+        if (p < 1 && state.screen === 'result') requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+    if (stars === 3 && !reduced) confetti();
+  }
+
+  function confetti() {
+    const box = document.createElement('div');
+    box.className = 'confetti';
+    box.setAttribute('aria-hidden', 'true');
+    const colors = ['#ffcb2e', '#ff3b47', '#4cd7ff', '#46e6a0', '#8b7bff', '#ffffff'];
+    for (let i = 0; i < 44; i++) {
+      const p = document.createElement('i');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[i % colors.length];
+      p.style.animationDuration = 2.6 + Math.random() * 2.2 + 's';
+      p.style.animationDelay = Math.random() * 0.9 + 's';
+      box.appendChild(p);
+    }
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 6500);
+  }
+
+  /* ---------- Céu estrelado (canvas) ---------- */
+  function startSky() {
+    const c = $('#stars');
+    const ctx = c.getContext('2d');
+    let w, h;
+    const mouse = { x: 0, y: 0 };
+    let targetLight = { x: 50, y: 50 };
+    let currentLight = { x: 50, y: 50 };
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = (e.clientX / window.innerWidth) - 0.5;
+      mouse.y = (e.clientY / window.innerHeight) - 0.5;
+      targetLight.x = (e.clientX / window.innerWidth) * 100;
+      targetLight.y = (e.clientY / window.innerHeight) * 100;
+    });
+
+    function size() {
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+    }
+
+    const layers = [
+      { count: 150, size: 0.8, speed: 0.02, color: '#fff' },
+      { count: 80, size: 1.5, speed: 0.05, color: '#dcd6ff' },
+      { count: 30, size: 2.5, speed: 0.1, color: '#fff' }
+    ].map(l => ({
+      ...l,
+      stars: Array.from({ length: l.count }, () => ({
+        x: Math.random() * 1, y: Math.random() * 1,
+        r: Math.random() * l.size, p: Math.random() * 6.28, s: 0.0008 + Math.random() * 0.002
+      }))
+    }));
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+
+      // Update Ambient Light with Lerp
+      currentLight.x += (targetLight.x - currentLight.x) * 0.08;
+      currentLight.y += (targetLight.y - currentLight.y) * 0.08;
+      document.documentElement.style.setProperty('--light-x', `${currentLight.x}%`);
+      document.documentElement.style.setProperty('--light-y', `${currentLight.y}%`);
+
+      layers.forEach(layer => {
+        ctx.fillStyle = layer.color;
+        const offsetX = mouse.x * layer.speed * w;
+        const offsetY = mouse.y * layer.speed * h;
+
+        for (const s of layer.stars) {
+          ctx.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(s.p + t * s.s));
+          const px = (s.x * w + offsetX + w) % w;
+          const py = (s.y * h + offsetY + h) % h;
+          ctx.beginPath(); ctx.arc(px, py, s.r, 0, 6.28); ctx.fill();
+        }
+      });
+
+      if (!reduced) requestAnimationFrame(draw);
+    }
+    size();
+    window.addEventListener('resize', () => { size(); if (reduced) draw(0); });
+    requestAnimationFrame(draw);
+  }
+
+  /* ---------- Arranque ---------- */
+  function init() {
+    $('#brand').innerHTML = `${ART.logo()}<div>${esc(D.meta.title)}<small>${esc(D.meta.audience)}</small></div>`;
+    $('#footer').textContent = `${D.meta.team}. ${D.meta.disclaimer}`;
+    $('#moon').insertAdjacentHTML('beforeend', ART.rover());
+    buildHud();
+    startSky();
+
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-action]');
+      if (!t || t.disabled) return;
+      const fn = actions[t.dataset.action];
+      if (fn) fn(t, e);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target && e.target.id === 'name') actions.start();
+    });
+
+    render();
+  }
+
+  init();
+})();
+
+</script>
+</body>
+</html>
