@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { advanceDay } from "../engine";
+import { advanceDay, resolveEventDecision } from "../engine";
+import { chooseOptionHeuristically } from "../heuristic";
 import { listModules } from "../modules";
 import {
   createPreparationState,
@@ -145,10 +146,20 @@ describe("1000 partidas aleatórias", () => {
       assertValidState(state, `jogo ${game} início`);
 
       let guard = 0;
-      while (state.status === "running" && guard <= state.missionDays) {
-        state = advanceDay(state);
+      while (state.status === "running" && guard <= state.missionDays * 2) {
+        if (state.activeEvent) {
+          const option = chooseOptionHeuristically(state, state.activeEvent);
+          state = resolveEventDecision(state, state.activeEvent.id, option.id);
+        }
+        state = advanceDay(state, random);
         assertValidState(state, `jogo ${game} dia ${state.day}`);
         guard += 1;
+      }
+
+      // Se terminou com evento pendente no último dia
+      if (state.activeEvent && state.status === "running") {
+        const option = chooseOptionHeuristically(state, state.activeEvent);
+        state = resolveEventDecision(state, state.activeEvent.id, option.id);
       }
 
       expect(state.status, `jogo ${game}`).not.toBe("running");
@@ -156,19 +167,69 @@ describe("1000 partidas aleatórias", () => {
       scores.push(computeScore(state).total);
     }
 
+    const perScenario: Record<string, { total: number; won: number; scores: number[]; eventsCount: number[] }> = {
+      A: { total: 0, won: 0, scores: [], eventsCount: [] },
+      B: { total: 0, won: 0, scores: [], eventsCount: [] },
+      C: { total: 0, won: 0, scores: [], eventsCount: [] },
+    };
+
+    const rng2 = mulberry32(20261112);
+    for (let game = 0; game < GAMES; game += 1) {
+      const scenario = scenarios[Math.floor(rng2() * scenarios.length)]!;
+      const prep = randomPreparation(scenario.id, rng2);
+      let state = startMission(prep);
+      let guard = 0;
+      let eventsInGame = 0;
+      while (state.status === "running" && guard <= state.missionDays * 2) {
+        if (state.activeEvent) {
+          eventsInGame += 1;
+          const option = chooseOptionHeuristically(state, state.activeEvent);
+          state = resolveEventDecision(state, state.activeEvent.id, option.id);
+        }
+        state = advanceDay(state, rng2);
+        guard += 1;
+      }
+      perScenario[scenario.id]!.total += 1;
+      if (state.status === "won") {
+        perScenario[scenario.id]!.won += 1;
+      }
+      perScenario[scenario.id]!.scores.push(computeScore(state).total);
+      perScenario[scenario.id]!.eventsCount.push(eventsInGame);
+    }
+
+    for (const [id, data] of Object.entries(perScenario)) {
+      const wr = ((data.won / data.total) * 100).toFixed(1);
+      const avgEv = (data.eventsCount.reduce((a, b) => a + b, 0) / data.total).toFixed(1);
+      console.log(`Cenário ${id}: Vitórias ${data.won}/${data.total} (${wr}%), Média Eventos: ${avgEv}`);
+    }
+
+    const winRate = (outcomes.won / GAMES) * 100;
+    const avgScore = scores.reduce((a, b) => a + b, 0) / GAMES;
+    console.log(`Vitórias: ${outcomes.won}/${GAMES} (${winRate.toFixed(1)}%), Pontuação Média: ${avgScore.toFixed(1)}`);
+
+
+
     expect(scores).toHaveLength(GAMES);
     expect(new Set(scores).size).toBeGreaterThan(1);
     expect(Math.min(...scores)).toBeLessThan(Math.max(...scores));
     expect(Math.max(...scores)).toBeLessThan(num("scoring.max"));
     expect(outcomes.won).toBeGreaterThan(0);
     expect(outcomes.lost).toBeGreaterThan(0);
+
+    // Critério da Fase 2b: taxa de vitória entre 25% e 75% para o jogador heurístico
+    expect(winRate).toBeGreaterThanOrEqual(25);
+    expect(winRate).toBeLessThanOrEqual(75);
   }, 30000);
 
   it("uma missão C sem módulos não é trivial", () => {
     let state = startMission(createPreparationState("C"));
     let guard = 0;
 
-    while (state.status === "running" && guard <= state.missionDays) {
+    while (state.status === "running" && guard <= state.missionDays * 2) {
+      if (state.activeEvent) {
+        const option = chooseOptionHeuristically(state, state.activeEvent);
+        state = resolveEventDecision(state, state.activeEvent.id, option.id);
+      }
       state = advanceDay(state);
       guard += 1;
     }

@@ -1,7 +1,7 @@
 # Validação científica — BASE KWANZA V2
 
 **Documento de controlo da regra mais importante do projeto: não inventar dados.**
-Versão 0.3.0 · 12 de novembro de 2026 · Estado: **para revisão científica**
+Versão 0.4.0 · 12 de novembro de 2026 · Estado: **para revisão científica**
 NASA Space Apps Challenge 2026 · Equipa angolana
 
 ---
@@ -235,6 +235,7 @@ Usar estas formulações nos textos, dicas e Debrief:
 | 12/11/2026 | 0.1.1 | Adicionadas S14–S17 (blindagem pelo terreno, recalibração LEND, abundância de gelo, factos lunares); C12 clarificado com a faixa publicada; referências S1–S17 cruzadas, ainda sem revisão humana final. |
 | 12/11/2026 | 0.2.0 | Fase 1: C12 marcado como simplificação; valores de conteúdo centralizados em `app/data/science-values.json`; D05/D08/D09/D11/D12/D18 passam a cobrir os efeitos de eventos, módulos e ritmo. |
 | 12/11/2026 | 0.3.0 | Fase 2a: mapa 10×10, ciclo de luz/sombra, preparação com 5 pontos, módulos com custos/requisitos, consumo diário, loop com pausa/velocidade e teste de 1000 partidas. Estados migrados para `proposto`/`a validar`/`verificado (humano)`; nenhum valor fica verificado sem revisão humana. |
+| 12/11/2026 | 0.4.0 | Fase 2b: máquina de eventos (função pura), 12 eventos com pista, vantagem/custo, consequência, porquê (≤2 frases) e fonte S#. Condições de estado (astronautas fora, módulos, etc.), pesos, cooldowns e não-repetição, 8–12 eventos/partida. Efeitos da morte de especialistas nas tarefas (+50% custo/risco) e dreno diário. Jogador heurístico em 1000 partidas com taxa de vitória de 54,8% (entre 25% e 75%) e zero estados inválidos. Parâmetros novos propostos em `app/data/science-values.json`. |
 
 ---
 
