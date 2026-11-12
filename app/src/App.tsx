@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { advanceDay, num, startMission } from "./game";
+import { advanceDay, resolveEventOption, startMission } from "./game";
 import type { GameState, PreparationState, ScenarioId } from "./game";
 import GameScreen from "./ui/screens/GameScreen";
 import LocationScreen from "./ui/screens/LocationScreen";
@@ -17,6 +17,14 @@ export default function App() {
 
   const handleAdvance = useCallback(() => {
     setGame((current) => (current ? advanceDay(current) : current));
+  }, []);
+
+  const handleResolveEvent = useCallback((eventId: string, optionId: string) => {
+    setGame((current) => (current ? resolveEventOption(current, eventId, optionId) : current));
+  }, []);
+
+  const handleDismissOutcome = useCallback(() => {
+    setGame((current) => (current ? { ...current, resolvedOutcome: null } : current));
   }, []);
 
   const handleFinish = useCallback(() => {
@@ -57,7 +65,13 @@ export default function App() {
       ) : null}
 
       {screen === "game" && game ? (
-        <GameScreen state={game} onAdvance={handleAdvance} onFinish={handleFinish} />
+        <GameScreen
+          state={game}
+          onAdvance={handleAdvance}
+          onFinish={handleFinish}
+          onResolveEvent={handleResolveEvent}
+          onDismissOutcome={handleDismissOutcome}
+        />
       ) : null}
 
       {screen === "result" && game ? (
@@ -70,7 +84,7 @@ export default function App() {
 
       <footer className="app-footer">
         <p>
-          Fase 2a · loop diário, mapa {num("map.width")}×{num("map.height")} e módulos.
+          Fase 2b · eventos dinâmicos por condições, pista, custo/vantagem, porquê e fontes S#.
           Dados em <code>app/data/science-values.json</code>.
         </p>
       </footer>

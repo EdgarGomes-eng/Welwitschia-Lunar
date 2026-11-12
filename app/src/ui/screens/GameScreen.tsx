@@ -8,6 +8,7 @@ import {
 } from "../../game";
 import type { GameState } from "../../game";
 import CrewPanel from "../components/CrewPanel";
+import EventModal from "../components/EventModal";
 import LunarMap from "../components/LunarMap";
 import ResourceBar from "../components/ResourceBar";
 import { STATUS_LABELS } from "../labels";
@@ -16,9 +17,17 @@ interface GameScreenProps {
   state: GameState;
   onAdvance: () => void;
   onFinish: () => void;
+  onResolveEvent: (eventId: string, optionId: string) => void;
+  onDismissOutcome: () => void;
 }
 
-export default function GameScreen({ state, onAdvance, onFinish }: GameScreenProps) {
+export default function GameScreen({
+  state,
+  onAdvance,
+  onFinish,
+  onResolveEvent,
+  onDismissOutcome,
+}: GameScreenProps) {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(() => num("timing.speedMultiplier1"));
 
@@ -26,8 +35,11 @@ export default function GameScreen({ state, onAdvance, onFinish }: GameScreenPro
   const sun = getSunPosition(state.day);
   const score = computeScore(state);
 
+  const hasPendingEvent = Boolean(state.activeEvent || state.resolvedOutcome);
+
   useEffect(() => {
-    if (paused || state.status !== "running") {
+    // Se estiver em pausa, com evento ativo/resultado, ou com a missão terminada, o temporizador não corre
+    if (paused || hasPendingEvent || state.status !== "running") {
       return;
     }
 
@@ -35,7 +47,7 @@ export default function GameScreen({ state, onAdvance, onFinish }: GameScreenPro
       (num("timing.dayDurationSeconds") * num("timing.millisecondsPerSecond")) / speed;
     const timer = window.setInterval(onAdvance, intervalMs);
     return () => window.clearInterval(timer);
-  }, [paused, speed, state.status, onAdvance]);
+  }, [paused, hasPendingEvent, speed, state.status, onAdvance]);
 
   useEffect(() => {
     if (state.status !== "running") {
@@ -73,11 +85,16 @@ export default function GameScreen({ state, onAdvance, onFinish }: GameScreenPro
           </div>
 
           <div className="controls">
-            <button type="button" onClick={() => setPaused((value) => !value)}>
+            <button
+              type="button"
+              disabled={hasPendingEvent}
+              onClick={() => setPaused((value) => !value)}
+            >
               {paused ? "Retomar" : "Pausar"}
             </button>
             <button
               type="button"
+              disabled={hasPendingEvent}
               className={speed === num("timing.speedMultiplier1") ? "speed active" : "speed"}
               onClick={() => setSpeed(num("timing.speedMultiplier1"))}
             >
@@ -85,19 +102,28 @@ export default function GameScreen({ state, onAdvance, onFinish }: GameScreenPro
             </button>
             <button
               type="button"
+              disabled={hasPendingEvent}
               className={speed === num("timing.speedMultiplier2") ? "speed active" : "speed"}
               onClick={() => setSpeed(num("timing.speedMultiplier2"))}
             >
               {num("timing.speedMultiplier2")}×
             </button>
-            <button type="button" className="primary" onClick={onAdvance}>
+            <button
+              type="button"
+              className="primary"
+              disabled={hasPendingEvent}
+              onClick={onAdvance}
+            >
               Avançar dia
             </button>
           </div>
 
           <p className="muted">
-            Cada dia dura {num("timing.dayDurationSeconds")} segundos a{" "}
-            {num("timing.speedMultiplier1")}×. {paused ? "Em pausa." : "A simulação está a correr."}
+            {hasPendingEvent
+              ? "Decisão de evento necessária para prosseguir."
+              : paused
+                ? "Em pausa."
+                : `A simulação está a correr (${num("timing.dayDurationSeconds")}s por dia).`}
           </p>
         </div>
 
@@ -141,6 +167,12 @@ export default function GameScreen({ state, onAdvance, onFinish }: GameScreenPro
           </div>
         </div>
       </div>
+
+      <EventModal
+        state={state}
+        onChooseOption={onResolveEvent}
+        onDismissOutcome={onDismissOutcome}
+      />
     </section>
   );
 }
