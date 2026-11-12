@@ -1,7 +1,14 @@
-import rawEvents from "../../data/events.json";
 import { createAstronauts } from "./astronauts";
+import {
+  getDecisionDaysList,
+  getEvent,
+  isDecisionDay,
+  listEvents,
+  resolveEventDecision,
+  selectEvent,
+} from "./events";
 import { simulateDaily } from "./modules";
-import { applyDailyPenalties, applyEffects, checkLifeZero } from "./resources";
+import { applyDailyPenalties } from "./resources";
 import {
   applySiteEffects,
   getDecisionDays,
@@ -11,19 +18,14 @@ import {
 import { num } from "./science";
 import type { BuiltModule, EventContent, GameState, ScenarioId } from "./types";
 
-const eventContent = rawEvents as unknown as EventContent[];
-
-export function listEvents(): EventContent[] {
-  return eventContent;
-}
-
-export function getEvent(id: string): EventContent {
-  const event = eventContent.find((item) => item.id === id);
-  if (!event) {
-    throw new Error(`Evento desconhecido: ${id}`);
-  }
-  return event;
-}
+export {
+  getDecisionDaysList,
+  getEvent,
+  isDecisionDay,
+  listEvents,
+  resolveEventDecision,
+  selectEvent,
+};
 
 /**
  * Estado inicial de uma missão.
@@ -66,15 +68,29 @@ export function createInitialState(
     penaltyPoints: num("scoring.initialPenaltyPoints"),
     lastPenaltyDay: null,
     status: "running",
+    activeEvent: null,
+    resolvedOutcome: null,
+    eventCooldowns: {},
+    eventHistory: [],
+    astronautsOutside: false,
   };
 }
 
 /**
  * Fecha o dia atual, aplica penalizações uma vez e avança para o dia seguinte.
+ * Se o dia seguinte for um dia de decisão, sorteia um evento elegível.
  * Se o último dia terminar com vida > 0, a missão é ganha.
  */
-export function advanceDay(state: GameState): GameState {
+export function advanceDay(
+  state: GameState,
+  rng: () => number = Math.random,
+): GameState {
   if (state.status !== "running") {
+    return state;
+  }
+
+  // Se houver um evento ativo não resolvido, a simulação não avança
+  if (state.activeEvent) {
     return state;
   }
 
@@ -96,52 +112,31 @@ export function advanceDay(state: GameState): GameState {
     };
   }
 
-  return {
+  const nextDay = afterPenalties.day + num("rules.dayStep");
+  const tempState: GameState = {
     ...afterPenalties,
-    day: afterPenalties.day + num("rules.dayStep"),
+    day: nextDay,
+    resolvedOutcome: null,
+  };
+
+  let activeEvent: EventContent | null = null;
+  if (isDecisionDay(state.scenarioId, nextDay)) {
+    activeEvent = selectEvent(tempState, listEvents(), rng);
+  }
+
+  return {
+    ...tempState,
+    activeEvent,
   };
 }
 
 /**
- * Resolve uma opção de evento.
- * A opção pode desbloquear um marco científico e conta como um ponto de decisão.
+ * Resolve uma opção de evento delegando na máquina de eventos pura.
  */
 export function resolveEventOption(
   state: GameState,
   eventId: string,
   optionId: string,
 ): GameState {
-  if (state.status !== "running") {
-    return state;
-  }
-
-  const event = getEvent(eventId);
-  const option = event.opcoes.find((item) => item.id === optionId);
-  if (!option) {
-    throw new Error(`Opção desconhecida: ${optionId} (evento ${eventId})`);
-  }
-
-  const next = applyEffects(state, option.efeitos);
-  if (next.status !== "running") {
-    return next;
-  }
-
-  const scienceMilestones =
-    option.marcoCientifico && !next.scienceMilestones.includes(option.marcoCientifico)
-      ? [...next.scienceMilestones, option.marcoCientifico]
-      : next.scienceMilestones;
-
-  const decisionPoints = Math.min(
-    next.knowledge.maxDecisionPoints,
-    next.knowledge.decisionPoints + num("knowledge.pointsPerDecision"),
-  );
-
-  return checkLifeZero({
-    ...next,
-    scienceMilestones,
-    knowledge: {
-      ...next.knowledge,
-      decisionPoints,
-    },
-  });
+  return resolveEventDecision(state, eventId, optionId);
 }

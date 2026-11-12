@@ -1,4 +1,5 @@
 import rawModules from "../../data/modules.json";
+import { isSpecialistAlive } from "./events";
 import { getLightGrid } from "./map";
 import { applyEffectAmount } from "./resources";
 import { num } from "./science";
@@ -43,6 +44,26 @@ export function simulateDaily(state: GameState): GameState {
 
   for (const effect of DAILY_LIFE_SUPPORT) {
     next = applyEffectAmount(next, effect.alvo, num(effect.chave));
+  }
+
+  if (next.status !== "running") {
+    return next;
+  }
+
+  // Efeitos da morte de especialistas nas tarefas diárias:
+  // Se Ngola (A2 - Engenharia) estiver inativa, a eficiência da rede cai (-1 energia/dia)
+  if (!isSpecialistAlive(next, "A2")) {
+    next = applyEffectAmount(next, "energy", num("specialists.Ngola.dailyEnergyPenalty"));
+  }
+
+  // Se Kudi (A3 - Medicina) estiver inativa, falta vigilância clínica (-1 saúde/dia a todos)
+  if (!isSpecialistAlive(next, "A3")) {
+    next = applyEffectAmount(next, "crew.health", num("specialists.Kudi.dailyHealthPenalty"));
+  }
+
+  // Se Mbanza (A4 - Geologia/ISRU) estiver inativo, atrito na reciclagem (-1 suporte/dia)
+  if (!isSpecialistAlive(next, "A4")) {
+    next = applyEffectAmount(next, "life", num("specialists.Mbanza.dailyYieldPenalty"));
   }
 
   if (next.status !== "running") {
