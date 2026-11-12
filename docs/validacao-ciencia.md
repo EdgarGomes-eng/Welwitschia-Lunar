@@ -1,7 +1,7 @@
 # Validação científica — BASE KWANZA V2
 
 **Documento de controlo da regra mais importante do projeto: não inventar dados.**
-Versão 0.1 · 12 de novembro de 2026 · Estado: **para revisão científica**
+Versão 0.3.0 · 12 de novembro de 2026 · Estado: **para revisão científica**
 NASA Space Apps Challenge 2026 · Equipa angolana
 
 ---
