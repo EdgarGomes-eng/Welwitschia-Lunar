@@ -1,0 +1,26 @@
+[
+  {
+    "id": "A1",
+    "nome": "Nzinga",
+    "especialidade": "Comando",
+    "bonus": "Decisões de crise"
+  },
+  {
+    "id": "A2",
+    "nome": "Ngola",
+    "especialidade": "Engenharia",
+    "bonus": "Reparações e energia"
+  },
+  {
+    "id": "A3",
+    "nome": "Kudi",
+    "especialidade": "Medicina de voo",
+    "bonus": "Saúde da tripulação"
+  },
+  {
+    "id": "A4",
+    "nome": "Mbanza",
+    "especialidade": "Geologia",
+    "bonus": "Gelo e ISRU"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "solar-panel",
+    "nome": "Painel solar",
+    "descricao": "Produz energia quando recebe luz solar direta.",
+    "cor": "#fbbf24",
+    "custoKey": "modules.solarPanel.buildCost",
+    "requisitos": {
+      "terreno": ["flat", "rim"],
+      "luzMinimaKey": "modules.solarPanel.minLight"
+    },
+    "escalaComLuz": true,
+    "efeitosPorDia": [
+      { "alvo": "energy", "chave": "modules.solarPanel.energyPerDay" }
+    ],
+    "propriedades": [],
+    "cienciaIds": ["C28"]
+  },
+  {
+    "id": "greenhouse",
+    "nome": "Estufa",
+    "descricao": "Complementa a dieta, mas consome energia e água.",
+    "cor": "#4ade80",
+    "custoKey": "modules.greenhouse.buildCost",
+    "requisitos": {
+      "terreno": ["flat"]
+    },
+    "escalaComLuz": false,
+    "efeitosPorDia": [
+      { "alvo": "food", "chave": "modules.greenhouse.foodPerDay" },
+      { "alvo": "energy", "chave": "modules.greenhouse.energyPerDay" },
+      { "alvo": "life", "chave": "modules.greenhouse.lifePerDay" }
+    ],
+    "propriedades": [],
+    "cienciaIds": ["C21", "C22", "C23"]
+  },
+  {
+    "id": "shelter",
+    "nome": "Abrigo de regolito",
+    "descricao": "Reduz a dose recebida durante tempestades solares.",
+    "cor": "#38bdf8",
+    "custoKey": "modules.shelter.buildCost",
+    "requisitos": {
+      "terreno": ["flat", "slope"]
+    },
+    "escalaComLuz": false,
+    "efeitosPorDia": [],
+    "propriedades": [
+      { "alvo": "doseReduction", "chave": "modules.shelter.doseReduction" }
+    ],
+    "cienciaIds": ["C18"]
+  },
+  {
+    "id": "extractor",
+    "nome": "Extrator de água",
+    "descricao": "Tenta extrair água do regolito rico em gelo.",
+    "cor": "#c77dff",
+    "custoKey": "modules.extractor.buildCost",
+    "requisitos": {
+      "terreno": ["ice"]
+    },
+    "escalaComLuz": false,
+    "efeitosPorDia": [
+      { "alvo": "life", "chave": "modules.extractor.lifePerDay" },
+      { "alvo": "energy", "chave": "modules.extractor.energyPerDay" }
+    ],
+    "propriedades": [],
+    "cienciaIds": ["C26", "C10"]
+  }
+]

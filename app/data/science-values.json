@@ -1,0 +1,990 @@
+{
+  "meta": {
+    "versao": "0.3.0",
+    "atualizado": "2026-11-12",
+    "regra": "Todos os números científicos e de balanceamento do jogo vivem neste ficheiro. A UI e o motor não devem conter números mágicos. Estados possíveis: proposto, a validar, verificado (humano)."
+  },
+  "values": {
+    "rules.resourceMin": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D02)",
+      "estado": "a validar",
+      "nota": "Limite inferior da escala abstrata de recursos."
+    },
+    "rules.resourceMax": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D02)",
+      "estado": "a validar",
+      "nota": "Limite superior da escala abstrata de recursos."
+    },
+    "rules.astronautStatMin": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar",
+      "nota": "Limite inferior de saúde, radiação e fadiga."
+    },
+    "rules.astronautStatMax": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar",
+      "nota": "Limite superior de saúde, radiação e fadiga."
+    },
+    "rules.astronautAliveThreshold": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar",
+      "nota": "Um astronauta está vivo quando a saúde individual é superior a este valor."
+    },
+    "rules.dayStep": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D06)",
+      "estado": "a validar",
+      "nota": "Incremento de um dia de jogo."
+    },
+    "rules.firstDay": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D06)",
+      "estado": "a validar",
+      "nota": "Primeiro dia da missão."
+    },
+    "rules.percentScale": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "unidade de percentagem",
+      "estado": "proposto",
+      "nota": "Conversão matemática para barras de progresso; não é um dado científico."
+    },
+    "rules.unitMultiplier": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Multiplicador neutro usado quando um módulo não depende da luz."
+    },
+
+    "map.width": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Número de colunas da grelha lunar."
+    },
+    "map.height": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Número de linhas da grelha lunar."
+    },
+    "map.canvasPixels": {
+      "valor": 600,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Resolução interna do Canvas; a UI escala para o ecrã."
+    },
+    "map.shadowSteps": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Máximo de células percorridas por um raio de sombra."
+    },
+    "map.shadowHeightTolerance": {
+      "valor": 0.1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Tolerância de altura para evitar sombras por diferenças mínimas."
+    },
+    "map.sun.elevationMinDegrees": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Elevação solar mínima simplificada para o Polo Sul."
+    },
+    "map.sun.elevationMaxDegrees": {
+      "valor": 20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Elevação solar máxima simplificada para o Polo Sul."
+    },
+    "map.sun.azimuthStartDegrees": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+    "map.sun.azimuthSpanDegrees": {
+      "valor": 360,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "O azimute roda uma volta completa por dia lunar."
+    },
+    "map.light.lit": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Fator de luz aplicado a uma célula iluminada."
+    },
+    "map.light.shadow": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto",
+      "nota": "Fator de luz aplicado a uma célula em sombra."
+    },
+    "map.terrain.flat.elevation": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+    "map.terrain.slope.elevation": {
+      "valor": 3,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+    "map.terrain.rim.elevation": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+    "map.terrain.psr.elevation": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+    "map.terrain.ice.elevation": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D22)",
+      "estado": "proposto"
+    },
+
+    "prep.buildPoints": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Orçamento abstrato para colocar módulos antes da missão."
+    },
+
+    "simulation.dailyLifeSupport.energy": {
+      "valor": -3,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D21)",
+      "estado": "proposto",
+      "nota": "Consumo diário de suporte de vida, independente dos módulos."
+    },
+    "simulation.dailyLifeSupport.food": {
+      "valor": -4,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D21)",
+      "estado": "proposto",
+      "nota": "Consumo diário de alimentos, independente dos módulos."
+    },
+    "simulation.dailyLifeSupport.life": {
+      "valor": -1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D21)",
+      "estado": "proposto",
+      "nota": "Consumo diário de água e consumíveis."
+    },
+    "simulation.dailyLifeSupport.protection": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D21)",
+      "estado": "proposto",
+      "nota": "A proteção não é consumida por rotina nesta fase."
+    },
+
+    "resources.initial.life": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D01)",
+      "estado": "a validar"
+    },
+    "resources.initial.energy": {
+      "valor": 70,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D01)",
+      "estado": "a validar"
+    },
+    "resources.initial.protection": {
+      "valor": 60,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D01)",
+      "estado": "a validar"
+    },
+    "resources.initial.food": {
+      "valor": 70,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D01)",
+      "estado": "a validar"
+    },
+
+    "penalties.energyZero": {
+      "valor": -20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D03)",
+      "estado": "a validar",
+      "nota": "Pontos retirados uma vez por dia enquanto a energia estiver a zero."
+    },
+    "penalties.protectionZeroLife": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D03)",
+      "estado": "a validar",
+      "nota": "Vida retirada uma vez por dia enquanto a proteção estiver a zero."
+    },
+    "penalties.foodZeroLife": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D03)",
+      "estado": "a validar",
+      "nota": "Vida retirada uma vez por dia enquanto os alimentos estiverem a zero."
+    },
+
+    "scoring.max": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.astronauts": {
+      "valor": 20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.life": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.energy": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.protection": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.food": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.science": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.weights.knowledge": {
+      "valor": 25,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.astronautAlivePoints": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D14)",
+      "estado": "a validar"
+    },
+    "scoring.scienceMilestonePoints": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D13)",
+      "estado": "a validar"
+    },
+    "scoring.scienceMilestonesMax": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D13)",
+      "estado": "a validar"
+    },
+    "scoring.initialPenaltyPoints": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D03)",
+      "estado": "a validar"
+    },
+
+    "knowledge.decisionWeight": {
+      "valor": 20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.miniChallengeWeight": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.ratioMin": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.ratioMax": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.initialDecisionPoints": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.initialMiniChallengesCorrect": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.miniChallengesTotal": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+    "knowledge.pointsPerDecision": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D12)",
+      "estado": "a validar"
+    },
+
+    "scenarios.A.missionDays": {
+      "valor": 14,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.A.decisionDays": {
+      "valor": 8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.A.siteEffect.life": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.A.siteEffect.energy": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.A.siteEffect.protection": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.A.siteEffect.food": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.B.missionDays": {
+      "valor": 21,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.B.decisionDays": {
+      "valor": 12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.B.siteEffect.life": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.B.siteEffect.energy": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.B.siteEffect.protection": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.B.siteEffect.food": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.C.missionDays": {
+      "valor": 30,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.C.decisionDays": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "scenarios.C.siteEffect.life": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.C.siteEffect.energy": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.C.siteEffect.protection": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+    "scenarios.C.siteEffect.food": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D04)",
+      "estado": "a validar"
+    },
+
+    "timing.secondsPerDecisionDay": {
+      "valor": 45,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar",
+      "nota": "Tempo real previsto por dia de decisão, incluindo leitura e escolha."
+    },
+    "timing.secondsPerRoutineDay": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar",
+      "nota": "Tempo real previsto para um dia de rotina auto-simulado."
+    },
+    "timing.secondsPerMinute": {
+      "valor": 60,
+      "tipo": "simplificação",
+      "fonte": "unidade de tempo",
+      "estado": "proposto",
+      "nota": "Conversão matemática, não um dado científico lunar."
+    },
+    "timing.dayDurationSeconds": {
+      "valor": 20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D24)",
+      "estado": "proposto",
+      "nota": "Tempo real de um dia no loop da Fase 2a."
+    },
+    "timing.millisecondsPerSecond": {
+      "valor": 1000,
+      "tipo": "simplificação",
+      "fonte": "unidade de tempo",
+      "estado": "proposto",
+      "nota": "Conversão matemática para temporizadores."
+    },
+    "timing.speedMultiplier1": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D24)",
+      "estado": "proposto",
+      "nota": "Velocidade normal do loop diário."
+    },
+    "timing.speedMultiplier2": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D24)",
+      "estado": "proposto",
+      "nota": "Velocidade rápida do loop diário."
+    },
+    "timing.targetMinutesMin": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+    "timing.targetMinutesMax": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "a validar"
+    },
+
+    "astronauts.initialHealth": {
+      "valor": 100,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+    "astronauts.initialRadiation": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+    "astronauts.initialFatigue": {
+      "valor": 0,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+    "astronauts.radiationWarning": {
+      "valor": 60,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+    "astronauts.radiationSevere": {
+      "valor": 80,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+    "astronauts.fatiguePenaltyThreshold": {
+      "valor": 80,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D11)",
+      "estado": "a validar"
+    },
+
+    "eva.energyCost": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D09)",
+      "estado": "a validar"
+    },
+    "eva.radiationDose": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D09)",
+      "estado": "a validar"
+    },
+    "eva.fatigueCost": {
+      "valor": 20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D09)",
+      "estado": "a validar"
+    },
+    "eva.slopeEnergyMultiplier": {
+      "valor": 1.5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D09)",
+      "estado": "a validar"
+    },
+    "eva.slopeThresholdDegrees": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D09)",
+      "estado": "a validar"
+    },
+
+    "modules.solarPanel.buildCost": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Custo em pontos de construção na preparação."
+    },
+    "modules.solarPanel.minLight": {
+      "valor": 0.25,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Luz mínima no dia da preparação para colocar o painel."
+    },
+    "modules.solarPanel.energyPerDay": {
+      "valor": 8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+    "modules.greenhouse.buildCost": {
+      "valor": 3,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Custo em pontos de construção na preparação."
+    },
+    "modules.greenhouse.foodPerDay": {
+      "valor": 6,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+    "modules.greenhouse.energyPerDay": {
+      "valor": -4,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+    "modules.greenhouse.lifePerDay": {
+      "valor": -2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+    "modules.shelter.buildCost": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Custo em pontos de construção na preparação."
+    },
+    "modules.shelter.doseReduction": {
+      "valor": 0.9,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar",
+      "nota": "Fração da dose evitada; 0,9 corresponde a 90%."
+    },
+    "modules.extractor.buildCost": {
+      "valor": 3,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D23)",
+      "estado": "proposto",
+      "nota": "Custo em pontos de construção na preparação."
+    },
+    "modules.extractor.lifePerDay": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+    "modules.extractor.energyPerDay": {
+      "valor": -8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D08)",
+      "estado": "a validar"
+    },
+
+    "science.C02.lunarDayDays": {
+      "valor": 29.53,
+      "tipo": "real",
+      "fonte": "S10",
+      "estado": "a validar",
+      "nota": "Dia solar lunar em dias terrestres; usado no ciclo de luz simplificado."
+    },
+
+    "science.C12.gameMin": {
+      "valor": 1,
+      "tipo": "simplificação",
+      "fonte": "S16",
+      "estado": "a validar",
+      "nota": "Faixa conservadora usada pelo jogo. A literatura publicada vai de ~0,7% a ~8,5%."
+    },
+    "science.C12.gameMax": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "S16",
+      "estado": "a validar",
+      "nota": "Faixa conservadora usada pelo jogo. A literatura publicada vai de ~0,7% a ~8,5%."
+    },
+    "science.C12.literatureMin": {
+      "valor": 0.7,
+      "tipo": "real",
+      "fonte": "S16",
+      "estado": "a validar"
+    },
+    "science.C12.literatureMax": {
+      "valor": 8.5,
+      "tipo": "real",
+      "fonte": "S16",
+      "estado": "a validar"
+    },
+
+    "events.E01.A.energy": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E01.A.radiation": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E01.B.energy": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E01.B.radiation": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E02.A.energy": {
+      "valor": 12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E02.A.fatigue": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E02.B.energy": {
+      "valor": -15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E02.B.fatigue": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E03.A.energy": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E03.A.fatigue": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E03.B.energy": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E04.A.life": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E04.A.energy": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E04.B.life": {
+      "valor": -15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E05.A.life": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E05.A.food": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E05.B.food": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E05.B.life": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E06.A.energy": {
+      "valor": -12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E06.A.life": {
+      "valor": 8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E06.B.energy": {
+      "valor": -4,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E07.A.fatigue": {
+      "valor": -20,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E07.A.energy": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E07.B.fatigue": {
+      "valor": 15,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E07.B.energy": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E08.A.radiation": {
+      "valor": 3,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E08.A.energy": {
+      "valor": -8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E08.B.radiation": {
+      "valor": 12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E09.A.energy": {
+      "valor": -6,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E09.A.fatigue": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E09.B.energy": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E10.A.energy": {
+      "valor": -10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E10.A.protection": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E10.B.health": {
+      "valor": -8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E10.B.energy": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E11.A.fatigue": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E11.A.protection": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E11.B.health": {
+      "valor": -6,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+
+    "events.E12.A.energy": {
+      "valor": -5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    },
+    "events.E12.B.fatigue": {
+      "valor": 5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D18)",
+      "estado": "a validar"
+    }
+  }
+}

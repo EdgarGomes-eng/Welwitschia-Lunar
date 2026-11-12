@@ -1,0 +1,29 @@
+[
+  {
+    "id": "A",
+    "nome": "Borda de Cratera",
+    "dificuldade": "fácil",
+    "objetivo": "Sobreviver e manter a energia estável.",
+    "descricao": "Uma borda elevada, com luz quase contínua e acesso limitado ao gelo. Inspirada na borda de Shackleton.",
+    "cienciaIds": ["C03", "C04", "C07"],
+    "cor": "#8ecae6"
+  },
+  {
+    "id": "B",
+    "nome": "Mons Mouton Plateau",
+    "dificuldade": "médio",
+    "objetivo": "Equilibrar energia e alimentos num planalto com sombras.",
+    "descricao": "Boa iluminação, relevo complexo e regiões em sombra permanente nas proximidades.",
+    "cienciaIds": ["C09", "C27"],
+    "cor": "#ffb703"
+  },
+  {
+    "id": "C",
+    "nome": "Cratera Amundsen",
+    "dificuldade": "difícil",
+    "objetivo": "Extrair água e sobreviver durante um mês lunar.",
+    "descricao": "Sombra quase total, frio extremo e gelo sob suspeita. A energia é o recurso mais frágil.",
+    "cienciaIds": ["C08", "C12", "C26"],
+    "cor": "#c77dff"
+  }
+]

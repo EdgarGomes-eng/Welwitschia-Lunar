@@ -1,0 +1,98 @@
+[
+  {
+    "id": "K01",
+    "titulo": "PSR — região em sombra permanente",
+    "resumo": "Uma zona que nunca recebe luz solar direta. Pode receber luz refletida das paredes vizinhas.",
+    "fonteIds": ["S1", "S11"],
+    "cienciaIds": ["C04"],
+    "tipo": "ambiente"
+  },
+  {
+    "id": "K02",
+    "titulo": "Iluminação polar",
+    "resumo": "No Polo Sul o Sol fica quase sempre rasante. O relevo cria sombras longas e áreas com iluminação quase contínua.",
+    "fonteIds": ["S1", "S2"],
+    "cienciaIds": ["C01", "C03", "C27"],
+    "tipo": "ambiente"
+  },
+  {
+    "id": "K03",
+    "titulo": "LEND e o hidrogénio",
+    "resumo": "O LEND mede a supressão de neutrões. Isso sugere hidrogénio no solo, mas não é uma medição direta de gelo.",
+    "fonteIds": ["S3"],
+    "cienciaIds": ["C10"],
+    "tipo": "instrumento"
+  },
+  {
+    "id": "K04",
+    "titulo": "Radiação de fundo",
+    "resumo": "Sem atmosfera espessa nem campo magnético global, a superfície lunar recebe radiação cósmica.",
+    "fonteIds": ["S4", "S8"],
+    "cienciaIds": ["C14", "C15", "C31"],
+    "tipo": "radiação"
+  },
+  {
+    "id": "K05",
+    "titulo": "Tempestade solar",
+    "resumo": "Uma ejeção de partículas energéticas do Sol pode chegar depressa. A tripulação deve abrigar-se.",
+    "fonteIds": ["S4"],
+    "cienciaIds": ["C17", "C29"],
+    "tipo": "radiação"
+  },
+  {
+    "id": "K06",
+    "titulo": "Blindagem pelo terreno",
+    "resumo": "Paredes de crateras e relevo podem bloquear partículas que chegam em ângulos rasantes.",
+    "fonteIds": ["S4", "S14"],
+    "cienciaIds": ["C18"],
+    "tipo": "radiação"
+  },
+  {
+    "id": "K07",
+    "titulo": "Regolito",
+    "resumo": "A camada de poeira e fragmentos que cobre a Lua. Pode ser escavada e usada como proteção.",
+    "fonteIds": ["S7", "S14"],
+    "cienciaIds": ["C18", "C30"],
+    "tipo": "geologia"
+  },
+  {
+    "id": "K08",
+    "titulo": "ECLSS",
+    "resumo": "O sistema de suporte de vida da ISS recicla água e produz oxigénio. Na Lua, seria uma extrapolação.",
+    "fonteIds": ["S5"],
+    "cienciaIds": ["C19", "C20"],
+    "tipo": "tecnologia"
+  },
+  {
+    "id": "K09",
+    "titulo": "Estufa espacial",
+    "resumo": "O Veggie e o APH mostram que é possível cultivar no espaço. As plantas complementam a dieta.",
+    "fonteIds": ["S6"],
+    "cienciaIds": ["C21", "C22", "C23"],
+    "tipo": "tecnologia"
+  },
+  {
+    "id": "K10",
+    "titulo": "ISRU",
+    "resumo": "A extração de água lunar é uma tecnologia em desenvolvimento. O rendimento depende do gelo, que é incerto.",
+    "fonteIds": ["S9"],
+    "cienciaIds": ["C26", "C13"],
+    "tipo": "tecnologia"
+  },
+  {
+    "id": "K11",
+    "titulo": "Dia solar lunar",
+    "resumo": "Um dia solar lunar dura cerca de um mês terrestre. O jogo comprime o tempo.",
+    "fonteIds": ["S10"],
+    "cienciaIds": ["C02"],
+    "tipo": "ambiente"
+  },
+  {
+    "id": "K12",
+    "titulo": "Gelo lunar",
+    "resumo": "Há evidência de gelo em regiões polares, mas a quantidade e a distribuição continuam incertas.",
+    "fonteIds": ["S3", "S16"],
+    "cienciaIds": ["C12", "C32", "C33"],
+    "tipo": "geologia"
+  }
+]

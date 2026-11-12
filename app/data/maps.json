@@ -1,0 +1,71 @@
+[
+  {
+    "scenarioId": "A",
+    "nome": "Borda de Cratera",
+    "legend": {
+      "F": "flat",
+      "S": "slope",
+      "R": "rim",
+      "P": "psr",
+      "I": "ice"
+    },
+    "terrain": [
+      "RRRRRRRRRR",
+      "RFFFFFFFFR",
+      "RFFSSFFFFR",
+      "RFFSSFFFFR",
+      "RFFFFFFFFR",
+      "RFFFFFFFFR",
+      "RFFFFSSFFR",
+      "RFFFFSSPPR",
+      "RFFFFFPPPR",
+      "RRRRRRRRRR"
+    ]
+  },
+  {
+    "scenarioId": "B",
+    "nome": "Mons Mouton Plateau",
+    "legend": {
+      "F": "flat",
+      "S": "slope",
+      "R": "rim",
+      "P": "psr",
+      "I": "ice"
+    },
+    "terrain": [
+      "RRRRRRRRRR",
+      "RFFFFFFFFR",
+      "RFFSSSSFFR",
+      "RFFSSSSFFR",
+      "RFFFFFFFFR",
+      "RFFFFFFFFR",
+      "RFFSSSSFFR",
+      "RFFSSSSPPR",
+      "RFFFFFPPPR",
+      "RRRRRRRRRR"
+    ]
+  },
+  {
+    "scenarioId": "C",
+    "nome": "Cratera Amundsen",
+    "legend": {
+      "F": "flat",
+      "S": "slope",
+      "R": "rim",
+      "P": "psr",
+      "I": "ice"
+    },
+    "terrain": [
+      "RRRRRRRRRR",
+      "RFFSSSSFFR",
+      "RFSSSSSSFR",
+      "RFSSPPSSFR",
+      "RFSPPPIIFR",
+      "RFSPPPIIFR",
+      "RFSSPPSSFR",
+      "RFFSSSSFFR",
+      "RFFFFFFFFR",
+      "RRRRRRRRRR"
+    ]
+  }
+]

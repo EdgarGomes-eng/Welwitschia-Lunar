@@ -1,0 +1,345 @@
+[
+  {
+    "id": "E01",
+    "titulo": "Tempestade solar a caminho",
+    "descricao": "O centro de controlo deteta uma ejeção de partículas energéticas. O tempo de aviso é curto.",
+    "tipo": "tempestade-solar",
+    "cienciaIds": ["C17", "C29"],
+    "opcoes": [
+      {
+        "id": "E01-A",
+        "texto": "Abrigar a tripulação no módulo de regolito",
+        "vantagem": "Reduz a dose recebida durante o evento.",
+        "custo": "Interrompe os trabalhos e consome energia.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E01.A.energy" },
+          { "alvo": "crew.radiation", "chave": "events.E01.A.radiation" }
+        ]
+      },
+      {
+        "id": "E01-B",
+        "texto": "Continuar a EVA e terminar a tarefa",
+        "vantagem": "Mantém o cronograma e poupa energia.",
+        "custo": "A tripulação apanha uma dose maior.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E01.B.energy" },
+          { "alvo": "crew.radiation", "chave": "events.E01.B.radiation" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E02",
+    "titulo": "Painel solar principal falhou",
+    "descricao": "A produção de energia caiu. A equipa pode reparar o painel ou racionar até ao próximo dia.",
+    "tipo": "energia",
+    "cienciaIds": ["C28"],
+    "opcoes": [
+      {
+        "id": "E02-A",
+        "texto": "Reparar agora com a equipa de engenharia",
+        "vantagem": "Recupera a produção solar.",
+        "custo": "Exige esforço e aumenta a fadiga.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E02.A.energy" },
+          { "alvo": "crew.fatigue", "chave": "events.E02.A.fatigue" }
+        ]
+      },
+      {
+        "id": "E02-B",
+        "texto": "Racionar energia até ao próximo dia",
+        "vantagem": "Evita uma reparação arriscada.",
+        "custo": "A base fica com menos energia.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E02.B.energy" },
+          { "alvo": "crew.fatigue", "chave": "events.E02.B.fatigue" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E03",
+    "titulo": "Poeira cobre os painéis",
+    "descricao": "Uma camada de poeira reduziu a luz que chega às células solares.",
+    "tipo": "poeira",
+    "cienciaIds": ["C30"],
+    "opcoes": [
+      {
+        "id": "E03-A",
+        "texto": "Limpar os painéis",
+        "vantagem": "Recupera parte da produção.",
+        "custo": "Gasta tempo e cansa a equipa.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E03.A.energy" },
+          { "alvo": "crew.fatigue", "chave": "events.E03.A.fatigue" }
+        ]
+      },
+      {
+        "id": "E03-B",
+        "texto": "Ignorar e esperar por uma limpeza natural",
+        "vantagem": "Poupa a tripulação.",
+        "custo": "A produção continua baixa.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E03.B.energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E04",
+    "titulo": "Fuga de água no módulo",
+    "descricao": "Um vedante falhou. A água está a escapar lentamente para o exterior.",
+    "tipo": "agua",
+    "cienciaIds": ["C19"],
+    "opcoes": [
+      {
+        "id": "E04-A",
+        "texto": "Isolar o módulo e reparar o vedante",
+        "vantagem": "Trava a perda de água.",
+        "custo": "Perde-se alguma água e energia na reparação.",
+        "efeitos": [
+          { "alvo": "life", "chave": "events.E04.A.life" },
+          { "alvo": "energy", "chave": "events.E04.A.energy" }
+        ]
+      },
+      {
+        "id": "E04-B",
+        "texto": "Continuar a usar o módulo e monitorizar",
+        "vantagem": "Mantém a rotina da base.",
+        "custo": "A perda de água continua.",
+        "efeitos": [
+          { "alvo": "life", "chave": "events.E04.B.life" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E05",
+    "titulo": "Estufa com stress hídrico",
+    "descricao": "As plantas mostram sinais de falta de água. A reserva também está a baixar.",
+    "tipo": "estufa",
+    "cienciaIds": ["C21", "C23"],
+    "opcoes": [
+      {
+        "id": "E05-A",
+        "texto": "Reduzir a rega e poupar água",
+        "vantagem": "Preserva a reserva de água.",
+        "custo": "Perde parte da colheita.",
+        "efeitos": [
+          { "alvo": "life", "chave": "events.E05.A.life" },
+          { "alvo": "food", "chave": "events.E05.A.food" }
+        ]
+      },
+      {
+        "id": "E05-B",
+        "texto": "Usar mais água para salvar a colheita",
+        "vantagem": "Mantém a produção de alimentos.",
+        "custo": "Gasta água da reserva.",
+        "efeitos": [
+          { "alvo": "food", "chave": "events.E05.B.food" },
+          { "alvo": "life", "chave": "events.E05.B.life" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E06",
+    "titulo": "Sinal de gelo no extrator",
+    "descricao": "O extrator encontrou uma camada com hidrogénio. A concentração e a profundidade são incertas.",
+    "tipo": "gelo",
+    "cienciaIds": ["C10", "C26"],
+    "opcoes": [
+      {
+        "id": "E06-A",
+        "texto": "Perfurar mais fundo",
+        "vantagem": "Pode encontrar gelo e melhorar a reserva de água.",
+        "custo": "Gasta muita energia e o resultado é incerto.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E06.A.energy" },
+          { "alvo": "life", "chave": "events.E06.A.life" }
+        ]
+      },
+      {
+        "id": "E06-B",
+        "texto": "Parar e analisar a amostra",
+        "vantagem": "Gera conhecimento sobre o subsolo.",
+        "custo": "Não resolve a falta de água.",
+        "marcoCientifico": "M06",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E06.B.energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E07",
+    "titulo": "Fadiga acumulada",
+    "descricao": "A tripulação está a trabalhar há vários dias sem uma pausa completa.",
+    "tipo": "tripulacao",
+    "cienciaIds": [],
+    "opcoes": [
+      {
+        "id": "E07-A",
+        "texto": "Dar um dia de descanso",
+        "vantagem": "Recupera a fadiga da equipa.",
+        "custo": "Atraso na produção.",
+        "efeitos": [
+          { "alvo": "crew.fatigue", "chave": "events.E07.A.fatigue" },
+          { "alvo": "energy", "chave": "events.E07.A.energy" }
+        ]
+      },
+      {
+        "id": "E07-B",
+        "texto": "Manter o cronograma",
+        "vantagem": "Mantém a produção.",
+        "custo": "A fadiga sobe.",
+        "efeitos": [
+          { "alvo": "crew.fatigue", "chave": "events.E07.B.fatigue" },
+          { "alvo": "energy", "chave": "events.E07.B.energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E08",
+    "titulo": "Radiação acima do aviso",
+    "descricao": "Os sensores indicam uma dose acumulada acima do limiar de aviso.",
+    "tipo": "radiacao",
+    "cienciaIds": ["C15", "C17"],
+    "opcoes": [
+      {
+        "id": "E08-A",
+        "texto": "Abrigar e reduzir a exposição",
+        "vantagem": "Protege a saúde da tripulação.",
+        "custo": "Perde tempo de operação.",
+        "efeitos": [
+          { "alvo": "crew.radiation", "chave": "events.E08.A.radiation" },
+          { "alvo": "energy", "chave": "events.E08.A.energy" }
+        ]
+      },
+      {
+        "id": "E08-B",
+        "texto": "Continuar as operações",
+        "vantagem": "Mantém o plano da missão.",
+        "custo": "A dose acumulada aumenta.",
+        "efeitos": [
+          { "alvo": "crew.radiation", "chave": "events.E08.B.radiation" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E09",
+    "titulo": "Comunicações com a Terra instáveis",
+    "descricao": "A antena perdeu o sinal. Há dados científicos por transmitir.",
+    "tipo": "comunicacoes",
+    "cienciaIds": [],
+    "opcoes": [
+      {
+        "id": "E09-A",
+        "texto": "Apontar a antena e perder uma EVA",
+        "vantagem": "Recupera o contacto com a Terra.",
+        "custo": "Gasta energia e cansa a equipa.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E09.A.energy" },
+          { "alvo": "crew.fatigue", "chave": "events.E09.A.fatigue" }
+        ]
+      },
+      {
+        "id": "E09-B",
+        "texto": "Continuar sem contacto e recolher dados",
+        "vantagem": "Avança a ciência da missão.",
+        "custo": "Fica sem apoio imediato da Terra.",
+        "marcoCientifico": "M09",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E09.B.energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E10",
+    "titulo": "Frio extremo no exterior",
+    "descricao": "A temperatura exterior desceu abaixo do previsto. Os sistemas precisam de proteção.",
+    "tipo": "frio",
+    "cienciaIds": ["C05", "C06"],
+    "opcoes": [
+      {
+        "id": "E10-A",
+        "texto": "Isolar os módulos",
+        "vantagem": "Protege os sistemas e a tripulação.",
+        "custo": "Consome energia.",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E10.A.energy" },
+          { "alvo": "protection", "chave": "events.E10.A.protection" }
+        ]
+      },
+      {
+        "id": "E10-B",
+        "texto": "Reparar o aquecedor externo",
+        "vantagem": "Resolve a causa do problema.",
+        "custo": "Exposição ao frio e risco para a saúde.",
+        "efeitos": [
+          { "alvo": "crew.health", "chave": "events.E10.B.health" },
+          { "alvo": "energy", "chave": "events.E10.B.energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E11",
+    "titulo": "Poeira lunar num fato",
+    "descricao": "Um fato voltou do exterior coberto de poeira abrasiva.",
+    "tipo": "fato",
+    "cienciaIds": ["C30"],
+    "opcoes": [
+      {
+        "id": "E11-A",
+        "texto": "Limpar o fato antes de entrar",
+        "vantagem": "Evita contaminar o módulo.",
+        "custo": "Gasta tempo e cansa a equipa.",
+        "efeitos": [
+          { "alvo": "crew.fatigue", "chave": "events.E11.A.fatigue" },
+          { "alvo": "protection", "chave": "events.E11.A.protection" }
+        ]
+      },
+      {
+        "id": "E11-B",
+        "texto": "Entrar e limpar depois",
+        "vantagem": "Poupa tempo.",
+        "custo": "A poeira pode afetar a saúde.",
+        "efeitos": [
+          { "alvo": "crew.health", "chave": "events.E11.B.health" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E12",
+    "titulo": "Oportunidade científica",
+    "descricao": "Uma amostra interessante foi recolhida. O tempo da missão é limitado.",
+    "tipo": "ciencia",
+    "cienciaIds": ["C10", "C26"],
+    "opcoes": [
+      {
+        "id": "E12-A",
+        "texto": "Estudar a amostra agora",
+        "vantagem": "Desbloqueia conhecimento científico.",
+        "custo": "Gasta tempo e energia.",
+        "marcoCientifico": "M12",
+        "efeitos": [
+          { "alvo": "energy", "chave": "events.E12.A.energy" }
+        ]
+      },
+      {
+        "id": "E12-B",
+        "texto": "Guardar a amostra para o fim",
+        "vantagem": "Mantém a operação a decorrer.",
+        "custo": "A equipa fica mais cansada.",
+        "efeitos": [
+          { "alvo": "crew.fatigue", "chave": "events.E12.B.fatigue" }
+        ]
+      }
+    ]
+  }
+]
