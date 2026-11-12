@@ -185,14 +185,14 @@
     },
 
     "simulation.dailyLifeSupport.energy": {
-      "valor": -3,
+      "valor": -4,
       "tipo": "simplificação",
       "fonte": "design do jogo (D21)",
       "estado": "proposto",
       "nota": "Consumo diário de suporte de vida, independente dos módulos."
     },
     "simulation.dailyLifeSupport.food": {
-      "valor": -4,
+      "valor": -5,
       "tipo": "simplificação",
       "fonte": "design do jogo (D21)",
       "estado": "proposto",
@@ -206,11 +206,11 @@
       "nota": "Consumo diário de água e consumíveis."
     },
     "simulation.dailyLifeSupport.protection": {
-      "valor": 0,
+      "valor": -1,
       "tipo": "simplificação",
       "fonte": "design do jogo (D21)",
       "estado": "proposto",
-      "nota": "A proteção não é consumida por rotina nesta fase."
+      "nota": "A proteção sofre desgaste diário suave sem abrigo."
     },
 
     "resources.initial.life": {
@@ -985,6 +985,67 @@
       "tipo": "simplificação",
       "fonte": "design do jogo (D18)",
       "estado": "a validar"
+    },
+
+    "specialists.deathPenaltyMultiplier": {
+      "valor": 1.5,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "specialists.Ngola.dailyEnergyPenalty": {
+      "valor": -1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "specialists.Kudi.dailyHealthPenalty": {
+      "valor": -1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "specialists.Mbanza.dailyYieldPenalty": {
+      "valor": -1,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "specialists.Nzinga.crisisPenalty": {
+      "valor": 2,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "events.minEventsPerMatch": {
+      "valor": 8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "events.maxEventsPerMatch": {
+      "valor": 12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "scenarios.A.eventsTarget": {
+      "valor": 8,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "scenarios.B.eventsTarget": {
+      "valor": 10,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
+    },
+    "scenarios.C.eventsTarget": {
+      "valor": 12,
+      "tipo": "simplificação",
+      "fonte": "design do jogo (D05)",
+      "estado": "proposto"
     }
   }
 }

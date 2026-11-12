@@ -2,15 +2,25 @@
   {
     "id": "E01",
     "titulo": "Tempestade solar a caminho",
+    "pista": "Sensores do CRaTER detetam um pico súbito no fluxo de protões solares de alta energia (SEP).",
     "descricao": "O centro de controlo deteta uma ejeção de partículas energéticas. O tempo de aviso é curto.",
     "tipo": "tempestade-solar",
+    "peso": 3,
+    "cooldownDias": 4,
+    "condicoes": {
+      "astronautsOutside": true,
+      "minDay": 2
+    },
+    "porque": "Partículas solares energéticas atravessam tecidos vivos e provocam danos biológicos severos. A blindagem da base atenua criticamente a dose de radiação absorvida.",
+    "fonte": "S4",
     "cienciaIds": ["C17", "C29"],
     "opcoes": [
       {
         "id": "E01-A",
         "texto": "Abrigar a tripulação no módulo de regolito",
-        "vantagem": "Reduz a dose recebida durante o evento.",
-        "custo": "Interrompe os trabalhos e consome energia.",
+        "vantagem": "Reduz drasticamente a dose recebida durante o evento.",
+        "custo": "Interrompe os trabalhos exteriores e consome energia.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E01.A.energy" },
           { "alvo": "crew.radiation", "chave": "events.E01.A.radiation" }
@@ -19,8 +29,9 @@
       {
         "id": "E01-B",
         "texto": "Continuar a EVA e terminar a tarefa",
-        "vantagem": "Mantém o cronograma e poupa energia.",
-        "custo": "A tripulação apanha uma dose maior.",
+        "vantagem": "Mantém o cronograma da missão e poupa energia.",
+        "custo": "A tripulação no exterior absorve uma dose de radiação perigosa.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E01.B.energy" },
           { "alvo": "crew.radiation", "chave": "events.E01.B.radiation" }
@@ -31,15 +42,25 @@
   {
     "id": "E02",
     "titulo": "Painel solar principal falhou",
+    "pista": "A telemetria da matriz fotovoltaica indica circuito aberto numa das secções viradas para o Sol rasante.",
     "descricao": "A produção de energia caiu. A equipa pode reparar o painel ou racionar até ao próximo dia.",
     "tipo": "energia",
+    "peso": 3,
+    "cooldownDias": 4,
+    "condicoes": {
+      "requiresModule": "solar-panel",
+      "minDay": 2
+    },
+    "porque": "No Polo Sul lunar, a luz rasante exige captação fotovoltaica sem interrupções. Sem intervenção técnica, a quebra de produção esgota os sistemas de suporte de vida.",
+    "fonte": "S1",
     "cienciaIds": ["C28"],
     "opcoes": [
       {
         "id": "E02-A",
         "texto": "Reparar agora com a equipa de engenharia",
-        "vantagem": "Recupera a produção solar.",
-        "custo": "Exige esforço e aumenta a fadiga.",
+        "vantagem": "Restaura de imediato a produção solar da base.",
+        "custo": "Exige esforço físico elevado e aumenta a fadiga da tripulação.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E02.A.energy" },
           { "alvo": "crew.fatigue", "chave": "events.E02.A.fatigue" }
@@ -48,8 +69,9 @@
       {
         "id": "E02-B",
         "texto": "Racionar energia até ao próximo dia",
-        "vantagem": "Evita uma reparação arriscada.",
-        "custo": "A base fica com menos energia.",
+        "vantagem": "Evita o risco e o cansaço de uma reparação no exterior.",
+        "custo": "A base opera com margem energética reduzida.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E02.B.energy" },
           { "alvo": "crew.fatigue", "chave": "events.E02.B.fatigue" }
@@ -60,15 +82,25 @@
   {
     "id": "E03",
     "titulo": "Poeira cobre os painéis",
+    "pista": "Piranómetros acusam quebra de irradiância ótica provocada por regolito fino acumulado eletrostaticamente.",
     "descricao": "Uma camada de poeira reduziu a luz que chega às células solares.",
     "tipo": "poeira",
+    "peso": 3,
+    "cooldownDias": 3,
+    "condicoes": {
+      "requiresModule": "solar-panel",
+      "minDay": 2
+    },
+    "porque": "O regolito lunar é altamente abrasivo e eletrostaticamente ativo, aderindo ao vidro dos painéis. A poeira bloqueia a passagem de fotões e degrada a eficiência energética.",
+    "fonte": "S7",
     "cienciaIds": ["C30"],
     "opcoes": [
       {
         "id": "E03-A",
-        "texto": "Limpar os painéis",
-        "vantagem": "Recupera parte da produção.",
-        "custo": "Gasta tempo e cansa a equipa.",
+        "texto": "Limpar os painéis solares",
+        "vantagem": "Recupera a eficiência nominal da geração solar.",
+        "custo": "Gasta tempo operacional e aumenta a fadiga dos astronautas.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E03.A.energy" },
           { "alvo": "crew.fatigue", "chave": "events.E03.A.fatigue" }
@@ -76,9 +108,10 @@
       },
       {
         "id": "E03-B",
-        "texto": "Ignorar e esperar por uma limpeza natural",
-        "vantagem": "Poupa a tripulação.",
-        "custo": "A produção continua baixa.",
+        "texto": "Ignorar e manter operação",
+        "vantagem": "Poupa a tripulação de esforço desnecessário.",
+        "custo": "A geração de energia continua abaixo do valor de projeto.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E03.B.energy" }
         ]
@@ -88,15 +121,24 @@
   {
     "id": "E04",
     "titulo": "Fuga de água no módulo",
+    "pista": "Sensores do circuito hidráulico acusam queda de pressão atmosférica e perda lenta de fluido para o exterior.",
     "descricao": "Um vedante falhou. A água está a escapar lentamente para o exterior.",
     "tipo": "agua",
+    "peso": 2,
+    "cooldownDias": 5,
+    "condicoes": {
+      "minDay": 3
+    },
+    "porque": "Sistemas de reciclagem de circuito fechado como o ECLSS são vitais em ambiente lunar. Qualquer fuga de vedante expõe a água ao vácuo, provocando perda irreversível.",
+    "fonte": "S5",
     "cienciaIds": ["C19"],
     "opcoes": [
       {
         "id": "E04-A",
         "texto": "Isolar o módulo e reparar o vedante",
-        "vantagem": "Trava a perda de água.",
-        "custo": "Perde-se alguma água e energia na reparação.",
+        "vantagem": "Trava a fuga e protege a integridade vital da base.",
+        "custo": "Consome energia no isolamento e gasta recursos.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "life", "chave": "events.E04.A.life" },
           { "alvo": "energy", "chave": "events.E04.A.energy" }
@@ -105,8 +147,9 @@
       {
         "id": "E04-B",
         "texto": "Continuar a usar o módulo e monitorizar",
-        "vantagem": "Mantém a rotina da base.",
-        "custo": "A perda de água continua.",
+        "vantagem": "Mantém o ritmo normal sem consumo adicional de energia.",
+        "custo": "A perda gradual debilita a reserva do suporte de vida.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "life", "chave": "events.E04.B.life" }
         ]
@@ -116,15 +159,25 @@
   {
     "id": "E05",
     "titulo": "Estufa com stress hídrico",
+    "pista": "Sensores de capilaridade nas raízes registam sub-hidratação severa das culturas experimentais.",
     "descricao": "As plantas mostram sinais de falta de água. A reserva também está a baixar.",
     "tipo": "estufa",
+    "peso": 4,
+    "cooldownDias": 4,
+    "condicoes": {
+      "requiresModule": "greenhouse",
+      "minDay": 2
+    },
+    "porque": "Culturas espaciais dependem de entrega controlada de nutrientes por capilaridade sem solo natural. O stress hídrico severo destrói rapidamente a biomassa que complementa a dieta.",
+    "fonte": "S6",
     "cienciaIds": ["C21", "C23"],
     "opcoes": [
       {
         "id": "E05-A",
         "texto": "Reduzir a rega e poupar água",
-        "vantagem": "Preserva a reserva de água.",
-        "custo": "Perde parte da colheita.",
+        "vantagem": "Preserva a água vital do habitat prioritariamente.",
+        "custo": "Sacrifica parte da produção alimentar da colheita.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "life", "chave": "events.E05.A.life" },
           { "alvo": "food", "chave": "events.E05.A.food" }
@@ -132,9 +185,10 @@
       },
       {
         "id": "E05-B",
-        "texto": "Usar mais água para salvar a colheita",
-        "vantagem": "Mantém a produção de alimentos.",
-        "custo": "Gasta água da reserva.",
+        "texto": "Injetar água extra na estufa",
+        "vantagem": "Salva as plantas e garante a produção de comida.",
+        "custo": "Gasta reservas de água potável do suporte vital.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "food", "chave": "events.E05.B.food" },
           { "alvo": "life", "chave": "events.E05.B.life" }
@@ -145,15 +199,25 @@
   {
     "id": "E06",
     "titulo": "Sinal de gelo no extrator",
+    "pista": "O detetor de neutrões da broca registou forte supressão térmica compatível com depósitos de gelo.",
     "descricao": "O extrator encontrou uma camada com hidrogénio. A concentração e a profundidade são incertas.",
     "tipo": "gelo",
+    "peso": 4,
+    "cooldownDias": 5,
+    "condicoes": {
+      "requiresModule": "water-extractor",
+      "minDay": 2
+    },
+    "porque": "Medições do LEND indicam hidrogénio no regolito polar, sugerindo água congelada em armadilhas frias. A tecnologia ISRU exige validar as amostras antes de operações massivas.",
+    "fonte": "S3",
     "cienciaIds": ["C10", "C26"],
     "opcoes": [
       {
         "id": "E06-A",
-        "texto": "Perfurar mais fundo",
-        "vantagem": "Pode encontrar gelo e melhorar a reserva de água.",
-        "custo": "Gasta muita energia e o resultado é incerto.",
+        "texto": "Perfurar mais fundo de imediato",
+        "vantagem": "Pode extrair voláteis e reforçar o suporte de vida.",
+        "custo": "Consome muita energia mecânica e o resultado imediato é incerto.",
+        "specialistId": "A4",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E06.A.energy" },
           { "alvo": "life", "chave": "events.E06.A.life" }
@@ -161,9 +225,10 @@
       },
       {
         "id": "E06-B",
-        "texto": "Parar e analisar a amostra",
-        "vantagem": "Gera conhecimento sobre o subsolo.",
-        "custo": "Não resolve a falta de água.",
+        "texto": "Parar broca e analisar a amostra",
+        "vantagem": "Gera conhecimento científico sólido sobre a estratigrafia lunar.",
+        "custo": "Não acrescenta água imediata à base.",
+        "specialistId": "A4",
         "marcoCientifico": "M06",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E06.B.energy" }
@@ -174,15 +239,24 @@
   {
     "id": "E07",
     "titulo": "Fadiga acumulada",
+    "pista": "A monitorização fisiológica acusa sonolência, declínio de vigília e atraso nos tempos de reação da tripulação.",
     "descricao": "A tripulação está a trabalhar há vários dias sem uma pausa completa.",
     "tipo": "tripulacao",
+    "peso": 3,
+    "cooldownDias": 3,
+    "condicoes": {
+      "minDay": 3
+    },
+    "porque": "Sem ciclos circadianos terrestres normais, o confinamento e o trabalho extremo amplificam o esgotamento. O descanso planeado é um requisito de segurança para evitar erros graves.",
+    "fonte": "S8",
     "cienciaIds": [],
     "opcoes": [
       {
         "id": "E07-A",
-        "texto": "Dar um dia de descanso",
-        "vantagem": "Recupera a fadiga da equipa.",
-        "custo": "Atraso na produção.",
+        "texto": "Dar um dia de repouso controlado",
+        "vantagem": "Reduz substancialmente a fadiga acumulada da equipa.",
+        "custo": "Abrandamento da produção e manutenção da base.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "crew.fatigue", "chave": "events.E07.A.fatigue" },
           { "alvo": "energy", "chave": "events.E07.A.energy" }
@@ -190,9 +264,10 @@
       },
       {
         "id": "E07-B",
-        "texto": "Manter o cronograma",
-        "vantagem": "Mantém a produção.",
-        "custo": "A fadiga sobe.",
+        "texto": "Manter o ritmo e as tarefas normais",
+        "vantagem": "Mantém os sistemas a operar na capacidade máxima.",
+        "custo": "A fadiga dos astronautas atinge níveis de alerta.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "crew.fatigue", "chave": "events.E07.B.fatigue" },
           { "alvo": "energy", "chave": "events.E07.B.energy" }
@@ -203,15 +278,24 @@
   {
     "id": "E08",
     "titulo": "Radiação acima do aviso",
+    "pista": "Dosímetros individuais ultrapassaram a taxa de contagem basal diária de radiação cósmica.",
     "descricao": "Os sensores indicam uma dose acumulada acima do limiar de aviso.",
     "tipo": "radiacao",
+    "peso": 3,
+    "cooldownDias": 4,
+    "condicoes": {
+      "minDay": 2
+    },
+    "porque": "A superfície lunar sofre bombardeamento contínuo de radiação cósmica galáctica sem escudo magnético planetário. Limitar a permanência no exterior é o método primordial de proteção radiológica.",
+    "fonte": "S4",
     "cienciaIds": ["C15", "C17"],
     "opcoes": [
       {
         "id": "E08-A",
-        "texto": "Abrigar e reduzir a exposição",
-        "vantagem": "Protege a saúde da tripulação.",
-        "custo": "Perde tempo de operação.",
+        "texto": "Recolher ao módulo blindado",
+        "vantagem": "Estanca a acumulação de dose e resguarda a saúde da tripulação.",
+        "custo": "Pausa operações e gasta energia nos sistemas de filtragem.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "crew.radiation", "chave": "events.E08.A.radiation" },
           { "alvo": "energy", "chave": "events.E08.A.energy" }
@@ -219,9 +303,10 @@
       },
       {
         "id": "E08-B",
-        "texto": "Continuar as operações",
-        "vantagem": "Mantém o plano da missão.",
-        "custo": "A dose acumulada aumenta.",
+        "texto": "Manter operações com monitorização passiva",
+        "vantagem": "Não interrompe os trabalhos produtivos da base.",
+        "custo": "Aumenta a exposição acumulada a partículas ionizantes.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "crew.radiation", "chave": "events.E08.B.radiation" }
         ]
@@ -231,15 +316,24 @@
   {
     "id": "E09",
     "titulo": "Comunicações com a Terra instáveis",
+    "pista": "O feixe de banda X sofre atenuação cíclica por interferência com relevo de cratera no horizonte.",
     "descricao": "A antena perdeu o sinal. Há dados científicos por transmitir.",
     "tipo": "comunicacoes",
+    "peso": 2,
+    "cooldownDias": 4,
+    "condicoes": {
+      "minDay": 2
+    },
+    "porque": "No Polo Sul da Lua, a Terra situa-se a elevações muito baixas no horizonte local. Pequenas oscilações ou relevos circundantes interrompem as comunicações diretas de longo alcance.",
+    "fonte": "S1",
     "cienciaIds": [],
     "opcoes": [
       {
         "id": "E09-A",
-        "texto": "Apontar a antena e perder uma EVA",
-        "vantagem": "Recupera o contacto com a Terra.",
-        "custo": "Gasta energia e cansa a equipa.",
+        "texto": "Reorientar a antena e recalibrar motores",
+        "vantagem": "Restaura o link com o centro de controlo na Terra.",
+        "custo": "Consome energia dos atuadores e cansa a tripulação.",
+        "specialistId": "A1",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E09.A.energy" },
           { "alvo": "crew.fatigue", "chave": "events.E09.A.fatigue" }
@@ -247,9 +341,10 @@
       },
       {
         "id": "E09-B",
-        "texto": "Continuar sem contacto e recolher dados",
-        "vantagem": "Avança a ciência da missão.",
-        "custo": "Fica sem apoio imediato da Terra.",
+        "texto": "Armazenar dados na base e aguardar janela",
+        "vantagem": "Foca esforços na colheita científica autónoma no terreno.",
+        "custo": "Opera temporariamente sem telemetria em tempo real da Terra.",
+        "specialistId": "A1",
         "marcoCientifico": "M09",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E09.B.energy" }
@@ -260,15 +355,24 @@
   {
     "id": "E10",
     "titulo": "Frio extremo no exterior",
+    "pista": "Sensores térmicos externos medem queda abrupta para 95 K na proximidade da base.",
     "descricao": "A temperatura exterior desceu abaixo do previsto. Os sistemas precisam de proteção.",
     "tipo": "frio",
+    "peso": 3,
+    "cooldownDias": 4,
+    "condicoes": {
+      "minDay": 3
+    },
+    "porque": "Regiões polares em sombra persistente descem a temperaturas criogénicas severas. Falhas térmicas arrefecem vedações e sistemas eletrónicos sensíveis, exigindo aquecimento ativo.",
+    "fonte": "S7",
     "cienciaIds": ["C05", "C06"],
     "opcoes": [
       {
         "id": "E10-A",
-        "texto": "Isolar os módulos",
-        "vantagem": "Protege os sistemas e a tripulação.",
-        "custo": "Consome energia.",
+        "texto": "Acionar aquecedores de emergência nos módulos",
+        "vantagem": "Mantém os sistemas operacionais e a estrutura aquecida.",
+        "custo": "Consome uma fatia importante da reserva elétrica.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E10.A.energy" },
           { "alvo": "protection", "chave": "events.E10.A.protection" }
@@ -276,9 +380,10 @@
       },
       {
         "id": "E10-B",
-        "texto": "Reparar o aquecedor externo",
-        "vantagem": "Resolve a causa do problema.",
-        "custo": "Exposição ao frio e risco para a saúde.",
+        "texto": "Realizar saída rápida para reforçar isolamento térmico",
+        "vantagem": "Resolve a transferência térmica com barreira física durável.",
+        "custo": "Exposição ao frio severo que degrada a saúde do operador.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "crew.health", "chave": "events.E10.B.health" },
           { "alvo": "energy", "chave": "events.E10.B.energy" }
@@ -289,15 +394,24 @@
   {
     "id": "E11",
     "titulo": "Poeira lunar num fato",
+    "pista": "A câmara de descontaminação assinala poeira de regolito aderida às articulações do fato.",
     "descricao": "Um fato voltou do exterior coberto de poeira abrasiva.",
     "tipo": "fato",
+    "peso": 3,
+    "cooldownDias": 3,
+    "condicoes": {
+      "minDay": 2
+    },
+    "porque": "O regolito lunar é afiado e vítreo, sem erosão atmosférica que suavize as suas arestas. Se entrar nos módulos, desgasta rolamentos e pode inflamar os pulmões dos tripulantes.",
+    "fonte": "S7",
     "cienciaIds": ["C30"],
     "opcoes": [
       {
         "id": "E11-A",
-        "texto": "Limpar o fato antes de entrar",
-        "vantagem": "Evita contaminar o módulo.",
-        "custo": "Gasta tempo e cansa a equipa.",
+        "texto": "Procedimento rigoroso de escovagem e aspiração",
+        "vantagem": "Impede que o pó abrasivo contamine o interior do habitat.",
+        "custo": "Processo demorado e cansativo que aumenta a fadiga.",
+        "specialistId": "A2",
         "efeitos": [
           { "alvo": "crew.fatigue", "chave": "events.E11.A.fatigue" },
           { "alvo": "protection", "chave": "events.E11.A.protection" }
@@ -305,9 +419,10 @@
       },
       {
         "id": "E11-B",
-        "texto": "Entrar e limpar depois",
-        "vantagem": "Poupa tempo.",
-        "custo": "A poeira pode afetar a saúde.",
+        "texto": "Entrada rápida com limpeza posterior diferida",
+        "vantagem": "Poupa tempo e esforço imediato dos astronautas.",
+        "custo": "Partículas microscópicas contaminam o ar interno e afetam a saúde.",
+        "specialistId": "A3",
         "efeitos": [
           { "alvo": "crew.health", "chave": "events.E11.B.health" }
         ]
@@ -317,15 +432,24 @@
   {
     "id": "E12",
     "titulo": "Oportunidade científica",
+    "pista": "Análise espetral de superfície identifica regolito rico em piroxenas e voláteis solares preservados.",
     "descricao": "Uma amostra interessante foi recolhida. O tempo da missão é limitado.",
     "tipo": "ciencia",
+    "peso": 3,
+    "cooldownDias": 4,
+    "condicoes": {
+      "minDay": 3
+    },
+    "porque": "Crateras lunares funcionam como cápsulas do tempo retendo registos de milhares de milhões de anos. A análise cuidadosa no laboratório da base produz ciência de alto valor.",
+    "fonte": "S2",
     "cienciaIds": ["C10", "C26"],
     "opcoes": [
       {
         "id": "E12-A",
-        "texto": "Estudar a amostra agora",
-        "vantagem": "Desbloqueia conhecimento científico.",
-        "custo": "Gasta tempo e energia.",
+        "texto": "Ligar espectrómetro e analisar a amostra agora",
+        "vantagem": "Desbloqueia um marco científico essencial para a missão.",
+        "custo": "Gasta energia suplementar da bancada laboratorial.",
+        "specialistId": "A4",
         "marcoCientifico": "M12",
         "efeitos": [
           { "alvo": "energy", "chave": "events.E12.A.energy" }
@@ -333,9 +457,10 @@
       },
       {
         "id": "E12-B",
-        "texto": "Guardar a amostra para o fim",
-        "vantagem": "Mantém a operação a decorrer.",
-        "custo": "A equipa fica mais cansada.",
+        "texto": "Catalogar e armazenar para estudo posterior",
+        "vantagem": "Preserva a energia para tarefas operacionais de rotina.",
+        "custo": "A catalogação manual atrasa o descanso da equipa.",
+        "specialistId": "A4",
         "efeitos": [
           { "alvo": "crew.fatigue", "chave": "events.E12.B.fatigue" }
         ]

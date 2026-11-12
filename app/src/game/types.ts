@@ -90,6 +90,24 @@ export interface KnowledgeState {
 export type MissionStatus = "running" | "won" | "lost";
 export type EndReason = "life-zero" | "mission-complete";
 
+export interface EventHistoryEntry {
+  day: number;
+  eventId: string;
+  optionId: string;
+}
+
+export interface ResolvedEventOutcome {
+  eventId: string;
+  optionId: string;
+  titulo: string;
+  opcaoEscolhida: string;
+  consequencia: string;
+  porque: string;
+  fonte: string;
+  efeitos: Effect[];
+  penalizacaoEspecialista?: string;
+}
+
 export interface GameState {
   scenarioId: ScenarioId;
   day: number;
@@ -104,6 +122,11 @@ export interface GameState {
   lastPenaltyDay: number | null;
   status: MissionStatus;
   endReason?: EndReason;
+  activeEvent: EventContent | null;
+  resolvedOutcome: ResolvedEventOutcome | null;
+  eventCooldowns: Record<string, number>;
+  eventHistory: EventHistoryEntry[];
+  astronautsOutside: boolean;
 }
 
 export interface ScoreBreakdown {
@@ -128,20 +151,38 @@ export interface ScenarioContent {
   cor: string;
 }
 
+export interface EventCondition {
+  minDay?: number;
+  maxDay?: number;
+  requiresModule?: string;
+  requiresNoModule?: string;
+  minResource?: { key: ResourceKey; value: number };
+  maxResource?: { key: ResourceKey; value: number };
+  astronautsOutside?: boolean;
+  specialistAlive?: string;
+}
+
 export interface EventOption {
   id: string;
   texto: string;
   vantagem: string;
   custo: string;
   efeitos: Effect[];
+  specialistId?: string;
   marcoCientifico?: string;
 }
 
 export interface EventContent {
   id: string;
   titulo: string;
+  pista: string;
   descricao: string;
   tipo: string;
+  peso: number;
+  cooldownDias: number;
+  condicoes?: EventCondition;
+  porque: string;
+  fonte: string;
   cienciaIds: string[];
   opcoes: EventOption[];
 }
